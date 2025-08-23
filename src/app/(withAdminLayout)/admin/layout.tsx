@@ -209,7 +209,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               <HiOutlineMenuAlt2 className="h-6 w-6 text-white" />
             </button>
             <div className="flex items-center gap-2">
-              <Image src={logo} alt="Logo" width={32} height={32} />
+              {/* <Image src={logo} alt="Logo" width={32} height={32} /> */}
               <h1 className="text-xl font-bold font-Grand-Hotel text-primary-blue  bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
                 Vacanza
               </h1>
@@ -250,8 +250,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 <div className="flex flex-col h-full p-4">
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                      <Image src={logo} alt="Logo" width={40} height={40} />
-                      <h1 className="text-2xl font-bold bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
+                      {/* <Image src={logo} alt="Logo" width={40} height={40} /> */}
+                      <h1 className="text-2xl font-Grand-Hotel bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
                         Vacanza
                       </h1>
                     </div>
@@ -277,7 +277,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-3 px-3 py-4 mb-4 border-b border-[#3A1A6A]">
+                  <div className="flex items-center gap-3 px-3 py-4 mb-4 border-b border-gray-400">
                     <Image
                       src={profile}
                       alt="Profile"
