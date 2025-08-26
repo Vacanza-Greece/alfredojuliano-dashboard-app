@@ -279,7 +279,7 @@ export function AllPayment() {
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider  border-gray-300 "
                   >
                     {header.isPlaceholder
                       ? null
