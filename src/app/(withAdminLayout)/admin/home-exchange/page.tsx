@@ -1,4 +1,3 @@
-import FaqManagement from "@/components/AdminPage/FaqManagement/FaqManagement";
 import HomeExchange from "@/components/AdminPage/HomeExchange/HomeExchange";
 import React from "react";
 

@@ -14,6 +14,7 @@ import videoReducer from "@/redux/features/auth/videoSlice";
 import notificationReducer from "@/redux/features/auth/notificationSlice";
 import paymentReducer from "@/redux/features/auth/paymentSlice";
 import profileReducer from "@/redux/features/auth/profileSlice";
+import exchangeReducer from "@/redux/features/auth/exchangeSlice";
 
 import { baseApi } from "./hooks/baseApi";
 import {
@@ -53,6 +54,7 @@ export const store = configureStore({
     notification: notificationReducer,
     payment: paymentReducer,
     profile: profileReducer,
+    exchange: exchangeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

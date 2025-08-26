@@ -52,6 +52,7 @@ export const baseApi = createApi({
     "Notification",
     "Payment",
     "getContentById",
+    "ExchangeRequest",
   ],
   endpoints: () => ({}),
 });
