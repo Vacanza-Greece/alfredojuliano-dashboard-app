@@ -65,6 +65,7 @@ export type Plan = {
 
 export type PlanFormData = Omit<Plan, "id" | "createdAt" | "updatedAt">;
 
+
 export interface Quote {
   id: string;
   quote: string;
