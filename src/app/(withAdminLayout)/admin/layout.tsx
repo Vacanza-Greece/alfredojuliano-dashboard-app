@@ -49,15 +49,16 @@ const navItems: NavItem[] = [
     icon: MdOutlinePayments,
   },
   {
-    title: "Subscription Plans",
-    href: "/admin/subscription-plan",
-    icon: IoSettingsOutline,
-  },
-  {
     title: "Home Exchange",
     href: "/admin/home-exchange",
     icon: FaExchangeAlt,
   },
+  {
+    title: "Subscription Plans",
+    href: "/admin/subscription-plan",
+    icon: IoSettingsOutline,
+  },
+
   // {
   //   title: "Onboarding",
   //   href: "/admin/subscription-plan",
@@ -73,21 +74,21 @@ const navItems: NavItem[] = [
     href: "/admin/contact-messages",
     icon: MdContactMail,
   },
-  {
-    title: "FAQ Management",
-    href: "/admin/faq-management",
-    icon: MdOutlineQuestionAnswer,
-  },
-  {
-    title: "Quotes",
-    href: "/admin/quotes",
-    icon: BsChatRightQuoteFill,
-  },
-  {
-    title: "Terms Management",
-    href: "/admin/terms-management",
-    icon: MdOutlineAssignment,
-  },
+  // {
+  //   title: "FAQ Management",
+  //   href: "/admin/faq-management",
+  //   icon: MdOutlineQuestionAnswer,
+  // },
+  // {
+  //   title: "Quotes",
+  //   href: "/admin/quotes",
+  //   icon: BsChatRightQuoteFill,
+  // },
+  // {
+  //   title: "Terms Management",
+  //   href: "/admin/terms-management",
+  //   icon: MdOutlineAssignment,
+  // },
 ];
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
@@ -137,7 +138,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="hidden md:flex flex-col fixed top-0 left-0 h-screen z-20 bg-[#3174CD] dark:bg-[#045dd1] shadow-md p-4"
         >
-          <div className="flex items-center justify-between mb-6 h-[48px]">
+          <div className="flex items-center justify-between  h-[48px]">
             <div className="flex items-center gap-2">
               {/* <div className="w-[52px] h-[56px] mt-9">
                 <Image src={logo} alt="Logo" width={62} height={62} />
@@ -160,6 +161,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               {collapsed ? <RiArrowRightSLine /> : <RiArrowLeftSLine />}
             </button>
           </div>
+          <hr className="border-t border-[#444649] mb-4 mt-1.5" />
 
           <nav className="flex-grow space-y-2">
             {navItems.map((item) => (
