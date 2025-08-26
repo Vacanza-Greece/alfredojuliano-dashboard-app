@@ -7,15 +7,14 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import {
-  // MdMenuBook,
-  // MdVideoSettings,
-  // MdOutlineFeaturedPlayList,
   MdDashboard,
   MdOutlinePayments,
   MdContactMail,
   MdOutlineQuestionAnswer,
   MdOutlineAssignment,
 } from "react-icons/md";
+import { FaExchangeAlt } from "react-icons/fa";
+
 import {
   RiArrowLeftSLine,
   RiArrowRightSLine,
@@ -54,6 +53,21 @@ const navItems: NavItem[] = [
     href: "/admin/subscription-plan",
     icon: IoSettingsOutline,
   },
+  {
+    title: "Home Exchange",
+    href: "/admin/home-exchange",
+    icon: FaExchangeAlt,
+  },
+  // {
+  //   title: "Onboarding",
+  //   href: "/admin/subscription-plan",
+  //   icon: IoSettingsOutline,
+  // },
+  // {
+  //   title: "All Property",
+  //   href: "/admin/subscription-plan",
+  //   icon: IoSettingsOutline,
+  // },
   {
     title: "Contact Messages",
     href: "/admin/contact-messages",
