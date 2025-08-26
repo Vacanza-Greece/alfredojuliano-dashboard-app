@@ -128,6 +128,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               {/* <div className="w-[52px] h-[56px] mt-9">
                 <Image src={logo} alt="Logo" width={62} height={62} />
               </div> */}
+
               {!collapsed && (
                 <h1 className="text-[28px] font-bold leading-normal font-Grand-Hotel bg-gradient-to-b from-[#408DF0] to-[#0E579E] text-transparent bg-clip-text">
                   <span className="text-[#FEE985] font-Grand-Hotel">
