@@ -13,6 +13,7 @@ import React from "react";
 import Title from "@/components/reuseabelComponents/Title";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { date } from "zod";
 
 // Type definitions
 interface User {
@@ -265,6 +266,8 @@ export function PaymentDetails() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const { data: payments, isLoading, isError } = useGetPaymentsQuery();
+
+ 
 
   const payment = payments?.find((p: Payment) => p.id === id);
 

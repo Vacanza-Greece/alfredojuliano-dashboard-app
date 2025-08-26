@@ -470,7 +470,7 @@ export default function SubscriptionPlanControl() {
                   type="checkbox"
                   checked={newPlan.isPopular}
                   onChange={handleCheckboxChange}
-                  className="col-span-3 h-4 w-4"
+                  className="col-span-3 h-4 w-4 cursor-pointer"
                 />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
@@ -497,7 +497,7 @@ export default function SubscriptionPlanControl() {
                       variant="outline"
                       disabled={!newFeature.trim()}
                     >
-                      <Plus className="h-4 w-4" />
+                      <Plus className="h-4 w-4 cursor-pointer" />
                     </Button>
                   </div>
                   <div className="border rounded-md p-2 space-y-2 max-h-40 overflow-y-auto">
