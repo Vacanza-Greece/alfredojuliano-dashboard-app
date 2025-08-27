@@ -17,6 +17,7 @@ import profileReducer from "@/redux/features/auth/profileSlice";
 import exchangeReducer from "@/redux/features/auth/exchangeSlice";
 import amenitiesReducer from "@/redux/features/auth/amenitiesSlice";
 import transportsReducer from "@/redux/features/auth/transportsSlice";
+import surroundingsReducer from "@/redux/features/auth/surroundingsSlice";
 
 import { baseApi } from "./hooks/baseApi";
 import {
@@ -59,6 +60,7 @@ export const store = configureStore({
     exchange: exchangeReducer,
     amenities: amenitiesReducer,
     transports: transportsReducer,
+    surroundings: surroundingsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

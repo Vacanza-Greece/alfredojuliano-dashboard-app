@@ -270,7 +270,7 @@ const OnboardingTransports = () => {
                 <button
                   type="submit"
                   disabled={isCreating || isUpdating}
-                  className={`px-4 py-2 rounded-lg text-white font-medium shadow-sm transition-all duration-300 
+                  className={`px-4 py-2 rounded-lg text-white font-medium shadow-sm transition-all duration-300 cursor-pointer
       ${
         isCreating || isUpdating
           ? "bg-blue-400 cursor-not-allowed"
