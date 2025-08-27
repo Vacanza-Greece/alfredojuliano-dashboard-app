@@ -6,26 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import {
-  MdDashboard,
-  MdOutlinePayments,
-  MdContactMail,
-  MdOutlineQuestionAnswer,
-  MdOutlineAssignment,
-} from "react-icons/md";
+import { MdDashboard, MdOutlinePayments, MdContactMail } from "react-icons/md";
 import { FaExchangeAlt } from "react-icons/fa";
+import { CiMedicalClipboard } from "react-icons/ci";
 
-import {
-  RiArrowLeftSLine,
-  RiArrowRightSLine,
-  // RiVideoUploadLine,
-} from "react-icons/ri";
-import { IoSettingsOutline } from "react-icons/io5";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { TbLogout } from "react-icons/tb";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
-import { BsChatRightQuoteFill } from "react-icons/bs";
 
-import logo from "../../../assets/icon/logo.svg";
 import profile from "../../../assets/images/profile.png";
 
 import { cn } from "@/lib/utils";
@@ -34,6 +22,7 @@ import { useAppDispatch } from "@/redux/hooks/redux-hook";
 import { logOut } from "@/redux/features/auth/authSlice";
 import cookies from "js-cookie";
 import { toast } from "sonner";
+import { FaTableCellsRowUnlock } from "react-icons/fa6";
 
 interface NavItem {
   title: string;
@@ -56,7 +45,7 @@ const navItems: NavItem[] = [
   {
     title: "Subscription Plans",
     href: "/admin/subscription-plan",
-    icon: IoSettingsOutline,
+    icon: FaTableCellsRowUnlock,
   },
 
   // {
@@ -73,6 +62,11 @@ const navItems: NavItem[] = [
     title: "Contact Messages",
     href: "/admin/contact-messages",
     icon: MdContactMail,
+  },
+  {
+    title: "Onboarding Exchange",
+    href: "/admin/onboarding-exchange",
+    icon: CiMedicalClipboard,
   },
   // {
   //   title: "FAQ Management",
@@ -155,13 +149,13 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="text-3xl text-white hover:bg-[#2A62DF]  p-1 rounded-full transition-colors cursor-pointer"
+              className="bg-[#2A62DF] text-3xl text-white hover:bg-[#2A62DF]  p-1 rounded-full transition-colors cursor-pointer"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
               {collapsed ? <RiArrowRightSLine /> : <RiArrowLeftSLine />}
             </button>
           </div>
-          <hr className="border-t border-[#444649] mb-4 mt-1.5" />
+          <hr className="border-t border-[#8e96a1] mb-4 mt-1.5" />
 
           <nav className="flex-grow space-y-2">
             {navItems.map((item) => (
@@ -169,7 +163,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "group flex items-center gap-4 px-[14px] py-3 rounded-lg transition-all",
+                  "group flex items-center gap-4 px-[14px] py-3 rounded-lg transition-all font-Grand-Hotel",
                   pathname.startsWith(item.href)
                     ? "bg-[#2A62DF] text-white shadow-sm"
                     : "hover:bg-[#25569E] text-white"
@@ -315,7 +309,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
-                          "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors",
+                          "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors font-Grand-Hotel",
                           pathname.startsWith(item.href)
                             ? "bg-[#2A62DF] text-white"
                             : "hover:bg-[#25569E] text-white"

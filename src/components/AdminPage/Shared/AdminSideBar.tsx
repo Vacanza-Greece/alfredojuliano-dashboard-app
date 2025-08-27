@@ -79,7 +79,7 @@ const AdminSideBar = ({ children }: { children: React.ReactNode }) => {
               />
               {!collapsed && (
                 <h1 className="text-xl font-bold bg-gradient-to-r from-[#003366] to-[#518BEC] text-transparent bg-clip-text font-['Sansita_Swashed']">
-                  Glow Up
+                  Vacanza
                 </h1>
               )}
             </div>

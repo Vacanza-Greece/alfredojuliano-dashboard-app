@@ -29,6 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/redux-hook";
 import PageLoader from "../Shared/PageLoader";
+import Title from "@/components/reuseabelComponents/Title";
 
 interface User {
   id: string;
@@ -87,32 +88,37 @@ const RoleFilter = () => {
   const dispatch = useAppDispatch();
 
   const options = [
-    { label: "All", value: null },
+    { label: "All Members", value: null },
     { label: "User", value: "USER" },
     { label: "Admin", value: "ADMIN" },
     // { label: "Super Admin", value: "SUPER_ADMIN" },
   ];
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <Button
         variant="ghost"
         size="sm"
-        className="flex items-center gap-1 text-gray-700 hover:bg-gray-100 cursor-pointer"
+        className="w-full flex items-center justify-between text-gray-700 border border-gray-300 px-4 py-5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm hover:border-blue-400 transition-all duration-200"
         onClick={() => setOpen(!open)}
       >
-        <span>
+        <span className="truncate">
           {options.find((opt) => opt.value === roleFilter)?.label ||
             "All Roles"}
         </span>
-        <IoChevronDown className="h-4 w-4" />
+        <IoChevronDown
+          className={`h-4 w-4 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
       </Button>
+
       {open && (
-        <div className="absolute z-10 mt-1 w-40 rounded-md bg-white shadow-lg border border-gray-200">
+        <div className="absolute left-0 right-0 sm:right-auto mt-1 rounded-lg bg-white shadow-lg border border-gray-200 z-10">
           {options.map((option) => (
             <button
               key={option.label}
-              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
+              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
                 roleFilter === option.value ? "bg-gray-100 font-medium" : ""
               }`}
               onClick={() => {
@@ -248,119 +254,131 @@ export function UserListTable() {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-lg font-semibold text-gray-900">All Users</h2>
+    <div>
+      <div className=" py-4 border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        {/* <h2 className="text-lg font-semibold text-gray-900">All Users</h2> */}
+
+        <Title title="All Users" />
         <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3">
+          {/* Search Input */}
           <div className="relative w-full sm:w-64">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <IoSearch className="h-5 w-5 text-gray-400" />
             </div>
-            <Input
+            <input
+              type="text"
               placeholder="Search users..."
-              className="pl-10 w-full"
+              className="border border-[#D2D4D9] pl-10 pr-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB] transition duration-300 w-full"
               value={searchTerm}
               onChange={(e) => dispatch(setSearchTerm(e.target.value))}
             />
           </div>
-          <RoleFilter />
+
+          {/* Role Filter */}
+          <div className="w-full sm:w-auto ">
+            <RoleFilter />
+          </div>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="hover:bg-gray-50">
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="px-6 py-4">
+      <div className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider  border-gray-300 "
+                    >
                       {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                        header.column.columnDef.header,
+                        header.getContext()
                       )}
-                    </TableCell>
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="px-6 py-4 text-center text-gray-500"
-                >
-                  No users found
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-
-      <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-        <div className="text-sm text-gray-700">
-          Showing{" "}
-          <span className="font-medium">
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}
-          </span>{" "}
-          to{" "}
-          <span className="font-medium">
-            {Math.min(
-              (table.getState().pagination.pageIndex + 1) *
-                table.getState().pagination.pageSize,
-              filteredData.length
-            )}
-          </span>{" "}
-          of <span className="font-medium">{filteredData.length}</span> users
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id} className="hover:bg-gray-50">
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="px-6 py-4">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No users found
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
-            style={{
-              backgroundColor: !table.getCanPreviousPage() ? "white" : "white",
-              color: "#2D0954",
-              borderColor: "#2D0954",
-            }}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
-            style={{
-              backgroundColor: !table.getCanNextPage() ? "white" : "white",
-              color: "#2D0954",
-              borderColor: "#2D0954",
-            }}
-          >
-            Next
-          </Button>
+
+        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+          <div className="text-sm text-gray-700">
+            Showing{" "}
+            <span className="font-medium">
+              {table.getState().pagination.pageIndex *
+                table.getState().pagination.pageSize +
+                1}
+            </span>{" "}
+            to{" "}
+            <span className="font-medium">
+              {Math.min(
+                (table.getState().pagination.pageIndex + 1) *
+                  table.getState().pagination.pageSize,
+                filteredData.length
+              )}
+            </span>{" "}
+            of <span className="font-medium">{filteredData.length}</span> users
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
+              style={{
+                backgroundColor: !table.getCanPreviousPage()
+                  ? "white"
+                  : "white",
+                color: "#2D0954",
+                borderColor: "#2D0954",
+              }}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
+              style={{
+                backgroundColor: !table.getCanNextPage() ? "white" : "white",
+                color: "#2D0954",
+                borderColor: "#2D0954",
+              }}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>

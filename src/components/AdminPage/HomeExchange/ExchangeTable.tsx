@@ -45,28 +45,28 @@ const ExchangeTable: React.FC<ExchangeTableProps> = ({
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50">
+        <table className="w-full border ">
+          <thead className="bg-gray-50 ">
             <tr className="bg-gradient-to-r from-gray-100 to-gray-50 shadow-sm rounded-t-lg border-b border-gray-300">
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 From User
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 To User
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 From Property
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 To Property
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
+              <th className="px-6 py-5 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 Actions
               </th>
             </tr>

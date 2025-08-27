@@ -1,3 +1,5 @@
+"use client";
+
 import { PaymentDetails } from "@/components/AdminPage/UserManagement/PaymentDetails";
 
 const PaymentDetailsPage = () => {
