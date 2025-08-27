@@ -17,6 +17,8 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/redux-hook";
 import { Amenity } from "@/redux/types/amenity";
 import Title from "@/components/reuseabelComponents/Title";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 const OnboardingAmenities = () => {
   const dispatch = useAppDispatch();
@@ -153,12 +155,13 @@ const OnboardingAmenities = () => {
     <div className="w-full">
       <div className="flex justify-between items-center mb-6">
         <Title title="Amenities" />
-        <button
+        <Button
           onClick={() => handleOpenModal()}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
+          className="bg-[var(--color-blueOne)] hover:bg-[var(--color-accent)] text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 flex items-center cursor-pointer"
         >
+          <Plus className="h-4 w-4 mr-2" />
           Add New Amenity
-        </button>
+        </Button>
       </div>
 
       {error && (
@@ -193,6 +196,7 @@ const OnboardingAmenities = () => {
                 >
                   Edit
                 </button>
+
                 <button
                   onClick={() => handleDelete(amenity.id)}
                   className="text-red-600 hover:text-red-800 cursor-pointer"
@@ -253,24 +257,30 @@ const OnboardingAmenities = () => {
                 )}
               </div>
 
-              <div className="flex space-x-4 pt-4">
+              <div className="flex space-x-4 pt-4 justify-end">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="border border-blue-600 text-blue-600 font-medium px-4 py-2 rounded-lg transition-colors duration-200 hover:bg-blue-50 focus:ring-2 focus:ring-blue-400 focus:outline-none cursor-pointer"
+                >
+                  Cancel
+                </button>
+
                 <button
                   type="submit"
                   disabled={isCreating || isUpdating}
-                  className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
+                  className={`px-4 py-2 rounded-lg text-white font-medium shadow-sm transition-all duration-300 cursor-pointer
+      ${
+        isCreating || isUpdating
+          ? "bg-blue-400 cursor-not-allowed"
+          : "bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+      }`}
                 >
                   {isCreating || isUpdating
                     ? "Processing..."
                     : isEditMode
                     ? "Update"
                     : "Create"}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 cursor-pointer"
-                >
-                  Cancel
                 </button>
               </div>
             </form>

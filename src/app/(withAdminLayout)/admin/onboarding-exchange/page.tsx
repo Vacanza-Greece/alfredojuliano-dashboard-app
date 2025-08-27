@@ -1,11 +1,17 @@
 "use client";
 
 import OnboardingAmenities from "@/components/AdminPage/OnboardingAmenities/OnboardingAmenities";
+import OnboardingTransports from "@/components/AdminPage/OnboardingAmenities/OnboardingTransports";
 
 const OnboardingAmenitiesPage = () => {
   return (
-    <div>
-      <OnboardingAmenities />
+    <div className="space-y-8">
+      <div>
+        <OnboardingAmenities />
+      </div>
+      <div>
+        <OnboardingTransports />
+      </div>
     </div>
   );
 };
