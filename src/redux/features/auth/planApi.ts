@@ -38,6 +38,7 @@ export const planApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Plan" }],
     }),
+
     updatePlan: build.mutation<
       Plan,
       { id: string; data: Partial<PlanFormData> }
@@ -59,6 +60,7 @@ export const planApi = baseApi.injectEndpoints({
         { type: "Plan" },
       ],
     }),
+
     deletePlan: build.mutation<void, string>({
       query: (id) => ({
         url: `/plans/${id}`,

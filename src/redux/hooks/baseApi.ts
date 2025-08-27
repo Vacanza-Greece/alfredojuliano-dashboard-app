@@ -53,6 +53,7 @@ export const baseApi = createApi({
     "Payment",
     "getContentById",
     "ExchangeRequest",
+    "Amenity",
   ],
   endpoints: () => ({}),
 });

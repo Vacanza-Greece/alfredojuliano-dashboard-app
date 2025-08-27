@@ -32,6 +32,7 @@ import defaultAvatar from "../../../assets/images/profile.png";
 import { Payment, PaymentStatus } from "@/redux/types/venue.type";
 import PageLoader from "../Shared/PageLoader";
 import { Button } from "@/components/ui/button";
+import Title from "@/components/reuseabelComponents/Title";
 
 // Status configuration
 const STATUS_CONFIG: Record<
@@ -150,6 +151,7 @@ export const getColumns = (
 // Main component
 export function AllPayment() {
   const { data: payments, isLoading, isError } = useGetPaymentsQuery();
+
   console.log("Payments Data:", payments);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -270,107 +272,117 @@ export function AllPayment() {
   }
 
   return (
-    <div className="w-full bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-      <div className="overflow-x-auto">
-        <Table className="min-w-full divide-y divide-gray-200">
-          <TableHeader className="bg-gray-50">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider  border-gray-300 "
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody className="bg-white divide-y divide-gray-200">
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="hover:bg-gray-50">
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="px-6 py-4 whitespace-nowrap"
+    <div>
+      <div className="py-4 border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        {/* <h2 className="text-lg font-semibold text-gray-900">All Users</h2> */}
+
+        <Title title="All Payment" />
+      </div>
+      <div className="w-full bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table className="min-w-full divide-y divide-gray-200">
+            <TableHeader className="bg-gray-50">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider  border-gray-300 "
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="px-6 py-4 text-center text-gray-500"
-                >
-                  No payments found.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-
-      {/* Pagination */}
-      <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-        <div className="text-sm text-gray-700">
-          Showing{" "}
-          <span className="font-medium">
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}
-          </span>{" "}
-          to{" "}
-          <span className="font-medium">
-            {Math.min(
-              (table.getState().pagination.pageIndex + 1) *
-                table.getState().pagination.pageSize,
-              filteredData.length
-            )}
-          </span>{" "}
-          of <span className="font-medium">{filteredData.length}</span> payments
+              ))}
+            </TableHeader>
+            <TableBody className="bg-white divide-y divide-gray-200">
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id} className="hover:bg-gray-50">
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="px-6 py-4 whitespace-nowrap"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No payments found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
-            style={{
-              backgroundColor: !table.getCanPreviousPage() ? "white" : "white",
-              color: "#2D0954",
-              borderColor: "#2D0954",
-            }}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
-            style={{
-              backgroundColor: !table.getCanNextPage() ? "white" : "white",
-              color: "#2D0954",
-              borderColor: "#2D0954",
-            }}
-          >
-            Next
-          </Button>
+
+        {/* Pagination */}
+        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+          <div className="text-sm text-gray-700">
+            Showing{" "}
+            <span className="font-medium">
+              {table.getState().pagination.pageIndex *
+                table.getState().pagination.pageSize +
+                1}
+            </span>{" "}
+            to{" "}
+            <span className="font-medium">
+              {Math.min(
+                (table.getState().pagination.pageIndex + 1) *
+                  table.getState().pagination.pageSize,
+                filteredData.length
+              )}
+            </span>{" "}
+            of <span className="font-medium">{filteredData.length}</span>{" "}
+            payments
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
+              style={{
+                backgroundColor: !table.getCanPreviousPage()
+                  ? "white"
+                  : "white",
+                color: "#2D0954",
+                borderColor: "#2D0954",
+              }}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2D0954] hover:text-white cursor-pointer"
+              style={{
+                backgroundColor: !table.getCanNextPage() ? "white" : "white",
+                color: "#2D0954",
+                borderColor: "#2D0954",
+              }}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>
