@@ -20,13 +20,7 @@ import {
   ChevronDown,
   Edit,
 } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useState, useCallback } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import {
@@ -376,7 +370,7 @@ export default function SubscriptionPlanControl() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold font-Grand-Hotel">
+              <DialogTitle className="text-2xl font-bold font-DM-sans">
                 {editingPlan ? "Edit Plan" : "Add New Plan"}
               </DialogTitle>
               <DialogDescription>
@@ -530,6 +524,7 @@ export default function SubscriptionPlanControl() {
                       }}
                     />
                     <Button
+                      className="cursor-pointer"
                       type="button"
                       onClick={addFeature}
                       variant="outline"
@@ -722,7 +717,7 @@ export default function SubscriptionPlanControl() {
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter className="mt-2">
+              {/* <CardFooter className="mt-2">
                 <Button
                   className={`w-full ${
                     plan.isPopular
@@ -732,7 +727,7 @@ export default function SubscriptionPlanControl() {
                 >
                   {plan.isPopular ? "Get Started" : "Choose Plan"}
                 </Button>
-              </CardFooter>
+              </CardFooter> */}
             </Card>
           ))}
         </div>
