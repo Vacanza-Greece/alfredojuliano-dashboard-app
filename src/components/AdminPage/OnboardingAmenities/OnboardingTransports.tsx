@@ -150,7 +150,7 @@ const OnboardingTransports = () => {
           onClick={() => handleOpenModal()}
           className="bg-[var(--color-blueOne)] hover:bg-[var(--color-accent)] text-white font-medium px-4 py-2 rounded-lg flex items-center cursor-pointer"
         >
-          <Plus className="h-4 w-4 mr-2" /> Add New Transport
+          <Plus className="h-4 w-4 mr-2" /> Add Transport
         </Button>
       </div>
 
@@ -214,7 +214,7 @@ const OnboardingTransports = () => {
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-800">
-                {isEditMode ? "Edit Transport" : "Add New Transport"}
+                {isEditMode ? "Edit Transport" : "Add Transport"}
               </h2>
               <button
                 type="button"

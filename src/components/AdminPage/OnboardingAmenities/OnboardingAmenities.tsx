@@ -158,7 +158,7 @@ const OnboardingAmenities = () => {
           onClick={() => handleOpenModal()}
           className="bg-[var(--color-blueOne)] hover:bg-[var(--color-accent)] text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 flex items-center cursor-pointer"
         >
-          <Plus className="h-4 w-4 mr-2" /> Add New Amenity
+          <Plus className="h-4 w-4 mr-2" /> Add Amenity
         </Button>
       </div>
 
@@ -213,9 +213,6 @@ const OnboardingAmenities = () => {
         ))}
       </div>
 
-      
-    
-
       {/* Add/Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-0.4">
@@ -223,7 +220,7 @@ const OnboardingAmenities = () => {
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-800">
-                {isEditMode ? "Edit Amenity" : "Add New Amenity"}
+                {isEditMode ? "Edit Amenity" : "Add Amenity"}
               </h2>
               <button
                 type="button"
