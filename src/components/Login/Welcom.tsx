@@ -15,7 +15,7 @@ const Welcome = () => {
             className="mb-4"
           /> */}
 
-          <h1 className="text-4xl font-Grand-Hotel text-[#FEE57E] sm:text-5xl font-semibold  mb-2">
+          <h1 className="text-4xl font-DM-sans text-[#FEE57E] sm:text-5xl font-semibold  mb-2">
             Admin!
           </h1>
           <p className="text-[16px] text-[#FDFCEE] text-center max-w-xs font-Montserrat tracking-widest leading-[20px]">

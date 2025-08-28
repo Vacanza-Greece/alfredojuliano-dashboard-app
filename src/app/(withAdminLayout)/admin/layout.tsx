@@ -139,10 +139,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               </div> */}
 
               {!collapsed && (
-                <h1 className="text-[28px] font-bold leading-normal font-Grand-Hotel bg-gradient-to-b from-[#408DF0] to-[#0E579E] text-transparent bg-clip-text">
-                  <span className="text-[#FEE985] font-Grand-Hotel">
-                    Vacanza
-                  </span>{" "}
+                <h1 className="text-[28px] font-bold leading-normal font-DM-sans bg-gradient-to-b from-[#408DF0] to-[#0E579E] text-transparent bg-clip-text">
+                  <span className="text-[#FEE985] font-DM-sans">Vacanza</span>{" "}
                 </h1>
               )}
             </div>
@@ -163,7 +161,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "group flex items-center gap-4 px-[14px] py-3 rounded-lg transition-all font-Grand-Hotel",
+                  "group flex items-center gap-4 px-[14px] py-3 rounded-lg transition-all font-DM-sans",
                   pathname.startsWith(item.href)
                     ? "bg-[#2A62DF] text-white shadow-sm"
                     : "hover:bg-[#25569E] text-white"
@@ -178,7 +176,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 {!collapsed && (
                   <span
                     className={cn(
-                      "font-medium text-[16px] transition-colors",
+                      "font-medium text-base transition-colors",
                       pathname.startsWith(item.href)
                         ? "text-white"
                         : "text-white"
@@ -221,7 +219,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             </button>
             <div className="flex items-center gap-2">
               {/* <Image src={logo} alt="Logo" width={32} height={32} /> */}
-              <h1 className="text-xl font-bold font-Grand-Hotel text-primary-blue  bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
+              <h1 className="text-xl font-bold font-DM-sans text-primary-blue  bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
                 Vacanza
               </h1>
             </div>
@@ -262,7 +260,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
                       {/* <Image src={logo} alt="Logo" width={40} height={40} /> */}
-                      <h1 className="text-2xl font-Grand-Hotel bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
+                      <h1 className="text-2xl font-DM-sans bg-gradient-to-b from-[#408DF0] to-[#0E579E]  bg-clip-text text-white">
                         Vacanza
                       </h1>
                     </div>
@@ -309,7 +307,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
-                          "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors font-Grand-Hotel",
+                          "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors font-DM-sans",
                           pathname.startsWith(item.href)
                             ? "bg-[#2A62DF] text-white"
                             : "hover:bg-[#25569E] text-white"
