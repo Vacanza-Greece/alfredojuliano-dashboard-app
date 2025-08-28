@@ -49,7 +49,6 @@ export type TAuth = {
 
 /* Subscription Plan */
 
-// venue.type.ts
 export type Plan = {
   id: string;
   name: string;
