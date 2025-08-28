@@ -182,30 +182,17 @@ export default function SubscriptionPlanControl() {
     if (!editingPlan || !validateForm()) return;
 
     try {
-      const updateData: Partial<PlanFormData> = {};
+      const fullPayload: PlanFormData = {
+        name: newPlan.name,
+        description: newPlan.description,
+        price: Number(newPlan.price),
+        features: newPlan.features.filter((f) => f.trim() !== ""),
+        planType: newPlan.planType,
+        status: newPlan.status,
+        // remove isPopular if backend doesn't support it
+      };
 
-      if (newPlan.name !== editingPlan.name) updateData.name = newPlan.name;
-      if (newPlan.description !== editingPlan.description)
-        updateData.description = newPlan.description;
-      if (Number(newPlan.price) !== editingPlan.price)
-        updateData.price = Number(newPlan.price);
-      if (
-        JSON.stringify(newPlan.features) !==
-        JSON.stringify(editingPlan.features)
-      ) {
-        updateData.features = newPlan.features.filter((f) => f.trim() !== "");
-      }
-      if (newPlan.planType !== editingPlan.planType)
-        updateData.planType = newPlan.planType;
-      if (newPlan.status !== editingPlan.status)
-        updateData.status = newPlan.status;
-      if (newPlan.isPopular !== editingPlan.isPopular)
-        updateData.isPopular = newPlan.isPopular;
-
-      await updatePlan({
-        id: editingPlan.id,
-        data: updateData,
-      }).unwrap();
+      await updatePlan({ id: editingPlan.id, data: fullPayload }).unwrap();
 
       toast.success("Plan updated successfully");
       setIsDialogOpen(false);
@@ -220,6 +207,49 @@ export default function SubscriptionPlanControl() {
       );
     }
   }, [editingPlan, newPlan, updatePlan, validateForm, resetForm]);
+
+  // const handleUpdatePlan = useCallback(async () => {
+  //   if (!editingPlan || !validateForm()) return;
+
+  //   try {
+  //     const updateData: Partial<PlanFormData> = {};
+
+  //     if (newPlan.name !== editingPlan.name) updateData.name = newPlan.name;
+  //     if (newPlan.description !== editingPlan.description)
+  //       updateData.description = newPlan.description;
+  //     if (Number(newPlan.price) !== editingPlan.price)
+  //       updateData.price = Number(newPlan.price);
+  //     if (
+  //       JSON.stringify(newPlan.features) !==
+  //       JSON.stringify(editingPlan.features)
+  //     ) {
+  //       updateData.features = newPlan.features.filter((f) => f.trim() !== "");
+  //     }
+  //     if (newPlan.planType !== editingPlan.planType)
+  //       updateData.planType = newPlan.planType;
+  //     if (newPlan.status !== editingPlan.status)
+  //       updateData.status = newPlan.status;
+  //     if (newPlan.isPopular !== editingPlan.isPopular)
+  //       updateData.isPopular = newPlan.isPopular;
+
+  //     await updatePlan({
+  //       id: editingPlan.id,
+  //       data: updateData,
+  //     }).unwrap();
+
+  //     toast.success("Plan updated successfully");
+  //     setIsDialogOpen(false);
+  //     resetForm();
+  //   } catch (error: unknown) {
+  //     const err = error as ApiError;
+  //     console.error("Update error:", err);
+  //     toast.error(
+  //       err?.data?.message ||
+  //         err?.message ||
+  //         "Failed to update plan. Please try again."
+  //     );
+  //   }
+  // }, [editingPlan, newPlan, updatePlan, validateForm, resetForm]);
 
   const handleDeletePlan = useCallback((id: string) => {
     setPlanToDelete(id);

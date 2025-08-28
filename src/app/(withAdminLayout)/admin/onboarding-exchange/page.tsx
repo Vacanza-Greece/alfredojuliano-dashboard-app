@@ -1,7 +1,7 @@
 "use client";
 
 import OnboardingAmenities from "@/components/AdminPage/OnboardingAmenities/OnboardingAmenities";
-// import OnboardingSurroundings from "@/components/AdminPage/OnboardingAmenities/OnboardingSurroundings";
+import OnboardingSurroundings from "@/components/AdminPage/OnboardingAmenities/OnboardingSurroundings";
 import OnboardingTransports from "@/components/AdminPage/OnboardingAmenities/OnboardingTransports";
 
 const OnboardingAmenitiesPage = () => {
@@ -13,9 +13,9 @@ const OnboardingAmenitiesPage = () => {
       <div>
         <OnboardingTransports />
       </div>
-      {/* <div>
+      <div>
         <OnboardingSurroundings />
-      </div> */}
+      </div>
     </div>
   );
 };

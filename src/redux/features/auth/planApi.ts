@@ -39,26 +39,35 @@ export const planApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: "Plan" }],
     }),
 
-    updatePlan: build.mutation<
-      Plan,
-      { id: string; data: Partial<PlanFormData> }
-    >({
+    // updatePlan: build.mutation<
+    //   Plan,
+    //   { id: string; data: Partial<PlanFormData> }
+    // >({
+    //   query: ({ id, data }) => ({
+    //     url: `/plans/${id}`,
+    //     method: "PATCH",
+    //     body: {
+    //       ...data,
+    //       price: data.price !== undefined ? Number(data.price) : undefined,
+    //       features: data.features ? data.features.filter(Boolean) : undefined,
+    //     },
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }),
+    //   invalidatesTags: (_result, _error, { id }) => [
+    //     { type: "Plan", id },
+    //     { type: "Plan" },
+    //   ],
+    // }),
+
+    updatePlan: build.mutation<Plan, { id: string; data: PlanFormData }>({
       query: ({ id, data }) => ({
         url: `/plans/${id}`,
         method: "PATCH",
-        body: {
-          ...data,
-          price: data.price !== undefined ? Number(data.price) : undefined,
-          features: data.features ? data.features.filter(Boolean) : undefined,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: data,
       }),
-      invalidatesTags: (_result, _error, { id }) => [
-        { type: "Plan", id },
-        { type: "Plan" },
-      ],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "Plan", id }],
     }),
 
     deletePlan: build.mutation<void, string>({
