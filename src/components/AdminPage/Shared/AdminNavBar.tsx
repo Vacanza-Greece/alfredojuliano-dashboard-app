@@ -5,14 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaUserCheck } from "react-icons/fa6";
 import { TbLogout } from "react-icons/tb";
-import profile from "../../../assets/images/profile.png";
+import profilee from "../../../assets/images/profile.png";
 import { useAppDispatch } from "@/redux/hooks/redux-hook";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import cookies from "js-cookie";
 import { logOut } from "@/redux/features/auth/authSlice";
+import { useGetProfileQuery } from "@/redux/features/auth/profileApi";
 
 const AdminNavBar = () => {
+  const { data: profile } = useGetProfileQuery();
+
+  console.log("user data :", profile);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
@@ -36,7 +40,12 @@ const AdminNavBar = () => {
               className="h-10 w-10 rounded-full overflow-hidden cursor-pointer"
               onClick={toggleDropdown}
             >
-              <Image src={profile} alt="Profile" height={40} width={40} />
+              <Image
+                src={profile?.photo || profilee} // fallback to imported profile image
+                alt="Profile"
+                height={40}
+                width={40}
+              />
             </div>
             {isDropdownOpen && (
               <div className="absolute top-14 right-0 w-56 bg-white border  shadow-lg rounded-md z-50 py-2 transition-all duration-200 ease-in-out">
