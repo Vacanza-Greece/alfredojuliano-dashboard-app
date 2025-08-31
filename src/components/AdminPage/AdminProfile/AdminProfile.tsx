@@ -28,6 +28,7 @@ import PageLoader from "../Shared/PageLoader";
 
 const AdminProfile = () => {
   const { data: profile, isLoading, isError, error } = useGetProfileQuery();
+  console.log(profile);
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
 
   const [formData, setFormData] = useState({

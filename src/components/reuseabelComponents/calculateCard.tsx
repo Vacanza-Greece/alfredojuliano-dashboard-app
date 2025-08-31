@@ -16,6 +16,8 @@ const CalculateCard = () => {
   const { data: plans } = useGetPlansQuery(undefined);
   const { data: payments } = useGetPaymentsQuery();
 
+  console.log("Payment here: ", payments);
+
   const userCount = users?.length ?? 0;
   const planCount = plans?.length ?? 0;
   const paymentCount = payments?.length ?? 0;

@@ -149,6 +149,8 @@ export function UserListTable() {
   const roleFilter = useAppSelector((state) => state.user.roleFilter);
 
   const { data: users = [], isLoading, isError } = useGetUsersQuery(undefined);
+
+  console.log("User rooe:", users);
   const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
   const [updateUserRole] = useUpdateUserRoleMutation();
 
@@ -239,10 +241,14 @@ export function UserListTable() {
             onChange={(e) =>
               handleRoleChange(user, e.target.value as User["role"])
             }
-            className="border border-gray-300 rounded px-2 py-1 text-sm"
+            className="appearance-none border-none rounded-md px-4 py-2 text-sm text-gray-700 bg-white shadow-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
+            <option value="USER" className="border-none bg-white">
+              User
+            </option>
+            <option value="ADMIN" className="border-none bg-white">
+              Admin
+            </option>
           </select>
         );
       },
