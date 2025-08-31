@@ -20,7 +20,13 @@ import {
   ChevronDown,
   Edit,
 } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { useState, useCallback } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import {
@@ -622,7 +628,7 @@ export default function SubscriptionPlanControl() {
                       {plan.planType.toLowerCase()}
                     </Badge>
                   </TableCell>
-                  <TableCell>${plan.price.toFixed(2)}</TableCell>
+                  <TableCell>eur {plan.price.toFixed(2)}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -688,7 +694,7 @@ export default function SubscriptionPlanControl() {
           {plans.map((plan) => (
             <Card
               key={plan.id}
-              className={`relative ${
+              className={`relative eur {
                 plan.isPopular ? "border-2 border-blue-600 shadow-lg" : ""
               } transition-all hover:shadow-md`}
             >
@@ -703,7 +709,7 @@ export default function SubscriptionPlanControl() {
                 <CardTitle className="text-center">
                   <div className="text-xl font-bold">{plan.name}</div>
                   <div className="text-3xl font-bold mt-2">
-                    ${plan.price.toFixed(2)}/{plan.planType.toLowerCase()}
+                    eur {plan.price.toFixed(2)}/{plan.planType.toLowerCase()}
                   </div>
                 </CardTitle>
               </CardHeader>
@@ -717,9 +723,9 @@ export default function SubscriptionPlanControl() {
                   ))}
                 </ul>
               </CardContent>
-              {/* <CardFooter className="mt-2">
+              <CardFooter className="mt-2">
                 <Button
-                  className={`w-full ${
+                  className={`w-full eur {
                     plan.isPopular
                       ? "bg-blue-600 hover:bg-blue-700"
                       : "bg-gray-800 hover:bg-gray-900"
@@ -727,7 +733,7 @@ export default function SubscriptionPlanControl() {
                 >
                   {plan.isPopular ? "Get Started" : "Choose Plan"}
                 </Button>
-              </CardFooter> */}
+              </CardFooter>
             </Card>
           ))}
         </div>

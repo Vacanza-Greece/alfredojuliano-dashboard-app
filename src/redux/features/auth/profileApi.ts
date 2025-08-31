@@ -4,7 +4,7 @@ import { IProfile, ProfileUpdatePayload } from "@/redux/types/venue.type";
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query<IProfile, void>({
-      query: () => "/user/me",
+      query: () => "/user/my-profile",
       providesTags: ["User"],
     }),
     updateProfile: builder.mutation<IProfile, ProfileUpdatePayload>({

@@ -47,42 +47,16 @@ const navItems: NavItem[] = [
     href: "/admin/subscription-plan",
     icon: FaTableCellsRowUnlock,
   },
-
-  // {
-  //   title: "Onboarding",
-  //   href: "/admin/subscription-plan",
-  //   icon: IoSettingsOutline,
-  // },
-  // {
-  //   title: "All Property",
-  //   href: "/admin/subscription-plan",
-  //   icon: IoSettingsOutline,
-  // },
   {
     title: "Contact Messages",
     href: "/admin/contact-messages",
     icon: MdContactMail,
   },
   {
-    title: "Onboarding Exchange",
+    title: "Amenities",
     href: "/admin/onboarding-exchange",
     icon: CiMedicalClipboard,
   },
-  // {
-  //   title: "FAQ Management",
-  //   href: "/admin/faq-management",
-  //   icon: MdOutlineQuestionAnswer,
-  // },
-  // {
-  //   title: "Quotes",
-  //   href: "/admin/quotes",
-  //   icon: BsChatRightQuoteFill,
-  // },
-  // {
-  //   title: "Terms Management",
-  //   href: "/admin/terms-management",
-  //   icon: MdOutlineAssignment,
-  // },
 ];
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
