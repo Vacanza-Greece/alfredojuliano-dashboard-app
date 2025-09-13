@@ -14,7 +14,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Add other Next.js config options if needed
 };
 
 export default nextConfig;
