@@ -8,6 +8,7 @@ export const planApi = baseApi.injectEndpoints({
         url: "/plans",
         method: "GET",
       }),
+      transformResponse: (response: { data: Plan[] }) => response.data, // unwrap the data
       providesTags: (result) =>
         result
           ? [
@@ -16,6 +17,21 @@ export const planApi = baseApi.injectEndpoints({
             ]
           : [{ type: "Plan" }],
     }),
+
+    // getPlans: build.query<Plan[], void>({
+    //   query: () => ({
+    //     url: "/plans",
+    //     method: "GET",
+    //   }),
+    //   providesTags: (result) =>
+    //     result
+    //       ? [
+    //           ...result.map(({ id }) => ({ type: "Plan" as const, id })),
+    //           { type: "Plan" },
+    //         ]
+    //       : [{ type: "Plan" }],
+    // }),
+
     getPlanById: build.query<Plan, string>({
       query: (id) => ({
         url: `/plans/${id}`,
