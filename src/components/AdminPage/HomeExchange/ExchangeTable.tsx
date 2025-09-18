@@ -15,7 +15,7 @@ const ExchangeTable: React.FC<ExchangeTableProps> = ({
   onRowClick,
 }) => {
   const [pageIndex, setPageIndex] = useState(0);
-  const pageSize = 5;
+  const pageSize = 8;
 
   const paginatedData = useMemo(() => {
     const start = pageIndex * pageSize;
