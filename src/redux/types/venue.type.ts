@@ -49,19 +49,37 @@ export type TAuth = {
 
 /* Subscription Plan */
 
+// export type Plan = {
+//   id: string;
+//   name: string;
+//   description: string;
+//   price: number;
+//   features: string[];
+//   planType: "MONTHLY" | "YEARLY";
+//   status: "ACTIVE" | "INACTIVE";
+//   isPopular?: boolean;
+//   createdAt?: string;
+//   updatedAt?: string;
+// };
+
+// export type PlanFormData = Omit<Plan, "id" | "createdAt" | "updatedAt">;
+
 export type Plan = {
   id: string;
   name: string;
   description: string;
   price: number;
   features: string[];
-  planType: "MONTHLY" | "YEARLY";
+  planType: "YEARLY" | "TWO_YEARLY"; // Added TWO_YEARLY
   status: "ACTIVE" | "INACTIVE";
+  plan_duration: string; // Added
+  priceId: string; // Added
   isPopular?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };
 
+// Omit id, createdAt, updatedAt for form
 export type PlanFormData = Omit<Plan, "id" | "createdAt" | "updatedAt">;
 
 export interface Quote {
