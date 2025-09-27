@@ -357,7 +357,7 @@ export default function SubscriptionPlanControl() {
           <DialogTrigger asChild>
             <Button
               onClick={resetForm}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg flex items-center"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg flex items-center cursor-pointer"
             >
               <Plus className="h-4 w-4 mr-2" /> Add New Plan
             </Button>
@@ -381,7 +381,7 @@ export default function SubscriptionPlanControl() {
                 <Button
                   key={lang.code}
                   variant="ghost"
-                  className={`flex items-center gap-2 rounded-none border-b-2 ${
+                  className={`flex items-center gap-2 rounded-none border-b-2 cursor-pointer ${
                     currentLanguage === lang.code
                       ? "border-blue-500 text-blue-600"
                       : "border-transparent"
@@ -484,6 +484,7 @@ export default function SubscriptionPlanControl() {
                       }
                     />
                     <Button
+                      className=" cursor-pointer"
                       type="button"
                       onClick={addFeature}
                       variant="outline"
@@ -504,7 +505,7 @@ export default function SubscriptionPlanControl() {
                             variant="ghost"
                             size="sm"
                             onClick={() => removeFeature(i)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 cursor-pointer"
                           >
                             <X className="h-4 w-4" />
                           </Button>
@@ -570,12 +571,16 @@ export default function SubscriptionPlanControl() {
                       }))
                     }
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full cursor-pointer">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="ACTIVE">Active</SelectItem>
-                      <SelectItem value="INACTIVE">Inactive</SelectItem>
+                      <SelectItem className=" cursor-pointer" value="ACTIVE">
+                        Active
+                      </SelectItem>
+                      <SelectItem className=" cursor-pointer" value="INACTIVE">
+                        Inactive
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -589,7 +594,7 @@ export default function SubscriptionPlanControl() {
                       name="isPopular"
                       checked={newPlan.isPopular}
                       onChange={handleCheckboxChange}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
                     />
                     <span className="ml-2 text-sm text-gray-600">
                       Mark as popular plan
@@ -601,12 +606,16 @@ export default function SubscriptionPlanControl() {
 
             <div className="flex justify-end gap-2 pt-4 border-t">
               <Button
+                className=" cursor-pointer"
                 variant="outline"
                 onClick={() => (setIsDialogOpen(false), resetForm())}
               >
                 Cancel
               </Button>
-              <Button onClick={editingPlan ? handleUpdatePlan : handleAddPlan}>
+              <Button
+                onClick={editingPlan ? handleUpdatePlan : handleAddPlan}
+                className=" cursor-pointer"
+              >
                 {editingPlan
                   ? isUpdating
                     ? "Updating..."
@@ -625,14 +634,16 @@ export default function SubscriptionPlanControl() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Plan Name (EN/EL)</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Features</TableHead>
-              <TableHead>Duration</TableHead>
-              <TableHead>Price ID</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="py-4 text-base">
+                Plan Name (EN/EL)
+              </TableHead>
+              <TableHead className="py-4 text-base">Type</TableHead>
+              <TableHead className="py-4 text-base">Price</TableHead>
+              <TableHead className="py-4 text-base">Features</TableHead>
+              <TableHead className="py-4 text-base">Duration</TableHead>
+              <TableHead className="py-4 text-base">Price ID</TableHead>
+              <TableHead className="py-4 text-base">Status</TableHead>
+              <TableHead className="py-4 text-base">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -725,6 +736,7 @@ export default function SubscriptionPlanControl() {
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
+                        className=" cursor-pointer"
                         variant="outline"
                         size="sm"
                         onClick={() => openEditDialog(plan)}
@@ -736,7 +748,7 @@ export default function SubscriptionPlanControl() {
                         size="sm"
                         onClick={() => handleDeletePlan(plan.id)}
                         disabled={isDeletingPlan}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-600 hover:text-red-700 cursor-pointer"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -760,13 +772,16 @@ export default function SubscriptionPlanControl() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeletingPlan}>
+            <AlertDialogCancel
+              disabled={isDeletingPlan}
+              className=" cursor-pointer"
+            >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDeletePlan}
               disabled={isDeletingPlan}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-600 hover:bg-red-700 cursor-pointer"
             >
               {isDeletingPlan ? (
                 <Loader2 className="animate-spin h-4 w-4 mr-2" />
