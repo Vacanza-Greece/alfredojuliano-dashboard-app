@@ -47,7 +47,6 @@ export type TAuth = {
   token: string | null;
 };
 
-
 // export type Plan = {
 //   id: string;
 //   name: string;
@@ -58,7 +57,7 @@ export type TAuth = {
 //   status: "ACTIVE" | "INACTIVE";
 //   plan_duration: string; // Added
 //   priceId: string; // Added
-//   isPopular?: boolean;
+//   is_populer?: boolean;
 //   createdAt?: string;
 //   updatedAt?: string;
 // };
@@ -66,11 +65,8 @@ export type TAuth = {
 // // Omit id, createdAt, updatedAt for form
 // export type PlanFormData = Omit<Plan, "id" | "createdAt" | "updatedAt">;
 
-
-
-// -----------------------------
 // Plan translation for multi-language support
-// -----------------------------
+
 export type PlanTranslation = {
   language: string; // "en", "el", etc.
   name: string;
@@ -80,25 +76,20 @@ export type PlanTranslation = {
   planType: "YEARLY" | "TWO_YEARLY" | "Premium" | "Basic";
 };
 
-// -----------------------------
-// Main Plan type returned by API
-// -----------------------------
 export type Plan = {
   id: string;
   price: number;
   priceId: string;
   status: "ACTIVE" | "INACTIVE";
   translations: PlanTranslation[];
-  isPopular?: boolean;
+  // is_populer?: boolean;
+  is_populer?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };
-
-// -----------------------------
-// Form data for creating/updating a plan
-// -----------------------------
 export type PlanFormData = Omit<Plan, "id" | "createdAt" | "updatedAt">;
 
+/* Quote Type */
 
 export interface Quote {
   id: string;
