@@ -14,6 +14,7 @@ import { CiMedicalClipboard } from "react-icons/ci";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { TbLogout } from "react-icons/tb";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { LuBadgePlus } from "react-icons/lu";
 
 import profile from "../../../assets/images/profile.png";
 
@@ -57,6 +58,11 @@ const navItems: NavItem[] = [
     title: "Amenities",
     href: "/admin/onboarding-exchange",
     icon: CiMedicalClipboard,
+  },
+  {
+    title: "Add Badges",
+    href: "/admin/badge",
+    icon: LuBadgePlus,
   },
   {
     title: "Subscribe",
