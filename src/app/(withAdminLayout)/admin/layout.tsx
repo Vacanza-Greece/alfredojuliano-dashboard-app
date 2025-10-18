@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BsSubstack } from "react-icons/bs";
 
 import { MdDashboard, MdOutlinePayments, MdContactMail } from "react-icons/md";
 import { FaExchangeAlt } from "react-icons/fa";
@@ -56,6 +57,11 @@ const navItems: NavItem[] = [
     title: "Amenities",
     href: "/admin/onboarding-exchange",
     icon: CiMedicalClipboard,
+  },
+  {
+    title: "Subscribe",
+    href: "/admin/subscribe",
+    icon: BsSubstack,
   },
 ];
 
