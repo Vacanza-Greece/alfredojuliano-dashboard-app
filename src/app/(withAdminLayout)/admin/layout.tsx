@@ -59,11 +59,11 @@ const navItems: NavItem[] = [
     href: "/admin/onboarding-exchange",
     icon: CiMedicalClipboard,
   },
-  {
-    title: "Add Badges",
-    href: "/admin/badge",
-    icon: LuBadgePlus,
-  },
+  // {
+  //   title: "Add Badges",
+  //   href: "/admin/badge",
+  //   icon: LuBadgePlus,
+  // },
   {
     title: "Subscribe",
     href: "/admin/subscribe",
