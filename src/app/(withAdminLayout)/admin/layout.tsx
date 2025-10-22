@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BsSubstack } from "react-icons/bs";
 
 import { MdDashboard, MdOutlinePayments, MdContactMail } from "react-icons/md";
 import { FaExchangeAlt } from "react-icons/fa";
@@ -13,6 +14,7 @@ import { CiMedicalClipboard } from "react-icons/ci";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { TbLogout } from "react-icons/tb";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { LuBadgePlus } from "react-icons/lu";
 
 import profile from "../../../assets/images/profile.png";
 
@@ -56,6 +58,16 @@ const navItems: NavItem[] = [
     title: "Amenities",
     href: "/admin/onboarding-exchange",
     icon: CiMedicalClipboard,
+  },
+  {
+    title: "Add Badges",
+    href: "/admin/badge",
+    icon: LuBadgePlus,
+  },
+  {
+    title: "Subscribe",
+    href: "/admin/subscribe",
+    icon: BsSubstack,
   },
 ];
 
