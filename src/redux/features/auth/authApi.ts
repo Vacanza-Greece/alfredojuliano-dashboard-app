@@ -12,10 +12,25 @@ const authApi = baseApi.injectEndpoints({
         }),
       }
     ),
+
+    logout: builder.mutation<{ message: string }, void>({
+      query: () => ({
+        url: "auth/logout",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? localStorage.getItem("token") || ""
+              : ""
+          }`,
+        },
+        body: {},
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation } = authApi;
 
 // import { baseApi } from "@/redux/hooks/baseApi";
 
