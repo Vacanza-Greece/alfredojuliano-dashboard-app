@@ -19,6 +19,7 @@ import amenitiesReducer from "@/redux/features/auth/amenitiesSlice";
 import transportsReducer from "@/redux/features/auth/transportsSlice";
 import surroundingsReducer from "@/redux/features/auth/surroundingsSlice";
 import newsLetterReducer from "@/redux/features/auth/newsLetterSlice";
+import propertiesReducer from "@/redux/features/auth/propertiesSlice";
 
 import { baseApi } from "./hooks/baseApi";
 import {
@@ -62,7 +63,8 @@ export const store = configureStore({
     amenities: amenitiesReducer,
     transports: transportsReducer,
     surroundings: surroundingsReducer,
-     newsLetter: newsLetterReducer,
+    newsLetter: newsLetterReducer,
+    properties: propertiesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
