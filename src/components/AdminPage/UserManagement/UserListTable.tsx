@@ -196,7 +196,7 @@ export function UserListTable() {
         const user = row.original;
         return (
           <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 flex-shrink-0">
+            <div className="relative h-10 w-10 shrink-0">
               <Image
                 src={user.photo || defaultUserPhoto}
                 alt={user.fullName}
@@ -264,19 +264,19 @@ export function UserListTable() {
           day: "numeric",
         }),
     },
-    // {
-    //   id: "actions",
-    //   header: "Actions",
-    //   cell: ({ row }) => (
-    //     <button
-    //       onClick={() => handleDeleteClick(row.original)}
-    //       disabled={isDeleting}
-    //       className="p-2 rounded-md bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 disabled:opacity-50 transition-colors"
-    //     >
-    //       <MdDelete className="w-5 h-5" />
-    //     </button>
-    //   ),
-    // },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => (
+        <button
+          onClick={() => handleDeleteClick(row.original)}
+          disabled={isDeleting}
+          className="p-2 rounded-md cursor-pointer bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 disabled:opacity-50 transition-colors"
+        >
+          <MdDelete className="w-5 h-5" />
+        </button>
+      ),
+    },
   ];
 
   // -------------------- Table Setup --------------------

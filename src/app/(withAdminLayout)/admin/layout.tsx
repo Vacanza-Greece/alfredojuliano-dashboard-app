@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BsSubstack } from "react-icons/bs";
 
 import { MdDashboard, MdOutlinePayments, MdContactMail } from "react-icons/md";
-import { FaExchangeAlt } from "react-icons/fa";
+import { FaExchangeAlt, FaProcedures } from "react-icons/fa";
 import { CiMedicalClipboard } from "react-icons/ci";
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
@@ -44,6 +44,11 @@ const navItems: NavItem[] = [
     title: "Home Exchange",
     href: "/admin/home-exchange",
     icon: FaExchangeAlt,
+  },
+  {
+    title: "All Properties",
+    href: "/admin/properties",
+    icon: FaProcedures,
   },
   {
     title: "Subscription Plans",
