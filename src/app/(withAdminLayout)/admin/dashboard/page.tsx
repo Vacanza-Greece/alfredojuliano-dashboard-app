@@ -1,9 +1,9 @@
 "use client";
 
+import UserListTable from "@/components/AdminPage/UserManagement/UserListTable";
 import CalculateCard from "@/components/reuseabelComponents/calculateCard";
 import Title from "@/components/reuseabelComponents/Title";
 import Wrapper from "@/components/wrapper/wrapper";
-import { UserListTable } from "@/components/AdminPage/UserManagement/UserListTable";
 
 const DashboardPage = () => {
   return (
