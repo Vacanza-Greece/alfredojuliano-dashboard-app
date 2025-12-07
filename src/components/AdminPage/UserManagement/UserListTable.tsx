@@ -116,7 +116,7 @@ const formatArray = (arr: any[] | null | undefined): string => {
 const SubscriptionBadge = ({ isSubscribed }: { isSubscribed: boolean }) => (
   <span
     className={`px-3 py-1 text-xs rounded-full font-medium ${
-      isSubscribed ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+      isSubscribed ? "bg-green-200 text-green-700" : "bg-gray-100 text-gray-700"
     }`}
   >
     {isSubscribed ? "Subscribed" : "Not Subscribed"}
