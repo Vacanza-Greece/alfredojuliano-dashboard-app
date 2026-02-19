@@ -115,9 +115,8 @@ const formatArray = (arr: any[] | null | undefined): string => {
 // ---------- Badge Components ----------
 const SubscriptionBadge = ({ isSubscribed }: { isSubscribed: boolean }) => (
   <span
-    className={`px-3 py-1 text-xs rounded-full font-medium ${
-      isSubscribed ? "bg-green-200 text-green-700" : "bg-gray-100 text-gray-700"
-    }`}
+    className={`px-3 py-1 text-xs rounded-full font-medium ${isSubscribed ? "bg-green-200 text-green-700" : "bg-gray-100 text-gray-700"
+      }`}
   >
     {isSubscribed ? "Subscribed" : "Not Subscribed"}
   </span>
@@ -131,9 +130,8 @@ const RoleBadge = ({ role }: { role: User["role"] }) => {
 
   return (
     <span
-      className={`px-3 py-1 text-xs rounded-full font-medium ${
-        variants[role] || "bg-gray-100 text-gray-700"
-      }`}
+      className={`px-3 py-1 text-xs rounded-full font-medium ${variants[role] || "bg-gray-100 text-gray-700"
+        }`}
     >
       {role}
     </span>
@@ -420,7 +418,7 @@ export default function UserListTable() {
             <span className="font-medium">
               {Math.min(
                 (table.getState().pagination.pageIndex + 1) *
-                  table.getState().pagination.pageSize,
+                table.getState().pagination.pageSize,
                 filteredData.length
               )}
             </span>{" "}
@@ -741,37 +739,37 @@ export default function UserListTable() {
                   {(singleUser.onboarding.homeName ||
                     singleUser.onboarding.homeDescription ||
                     singleUser.onboarding.aboutNeighborhood) && (
-                    <div className="grid grid-cols-1 gap-4">
-                      {singleUser.onboarding.homeName && (
-                        <div>
-                          <h4 className="font-semibold mb-1">Home Name</h4>
-                          <p className="text-gray-600">
-                            {singleUser.onboarding.homeName}
-                          </p>
-                        </div>
-                      )}
-                      {singleUser.onboarding.homeDescription && (
-                        <div>
-                          <h4 className="font-semibold mb-1">
-                            Home Description
-                          </h4>
-                          <p className="text-gray-600">
-                            {singleUser.onboarding.homeDescription}
-                          </p>
-                        </div>
-                      )}
-                      {singleUser.onboarding.aboutNeighborhood && (
-                        <div>
-                          <h4 className="font-semibold mb-1">
-                            About Neighborhood
-                          </h4>
-                          <p className="text-gray-600">
-                            {singleUser.onboarding.aboutNeighborhood}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                      <div className="grid grid-cols-1 gap-4">
+                        {singleUser.onboarding.homeName && (
+                          <div>
+                            <h4 className="font-semibold mb-1">Home Name</h4>
+                            <p className="text-gray-600">
+                              {singleUser.onboarding.homeName}
+                            </p>
+                          </div>
+                        )}
+                        {singleUser.onboarding.homeDescription && (
+                          <div>
+                            <h4 className="font-semibold mb-1">
+                              Home Description
+                            </h4>
+                            <p className="text-gray-600">
+                              {singleUser.onboarding.homeDescription}
+                            </p>
+                          </div>
+                        )}
+                        {singleUser.onboarding.aboutNeighborhood && (
+                          <div>
+                            <h4 className="font-semibold mb-1">
+                              About Neighborhood
+                            </h4>
+                            <p className="text-gray-600">
+                              {singleUser.onboarding.aboutNeighborhood}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                   {/* Notes */}
                   {singleUser.onboarding.notes && (
