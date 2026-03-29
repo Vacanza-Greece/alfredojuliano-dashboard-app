@@ -75,8 +75,8 @@ const CalculateCard = () => {
       icon: <FaUsers />,
     },
     {
-      title: "Active Courses",
-      amount: `${planCount} courses`,
+      title: "Active Home",
+      amount: `${planCount} Home`,
       change: getChange(plansLast30.length, planCount),
       unit: `${plansLast30.length} added`,
       icon: <VscLayersActive />,
@@ -115,8 +115,8 @@ const CalculateCard = () => {
         const changeColor = isNeutral
           ? "#6B7280"
           : isNegative
-          ? "#E35A5F"
-          : "#12CC1E";
+            ? "#E35A5F"
+            : "#12CC1E";
 
         return (
           <div

@@ -226,7 +226,7 @@ export default function SubscriptionPlanControl() {
       ]);
       setNewFeature("");
     }
-  }, [newFeature, currentLanguage]);
+  }, [newFeature, currentLanguage, newPlan]);
 
   const removeFeature = useCallback(
     (index: number) => {
@@ -236,7 +236,7 @@ export default function SubscriptionPlanControl() {
         currentFeatures.filter((_, i) => i !== index)
       );
     },
-    [currentLanguage]
+    [currentLanguage, newPlan]
   );
 
   // -----------------------------
