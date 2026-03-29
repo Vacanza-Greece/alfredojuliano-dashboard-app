@@ -16,9 +16,9 @@ export const planApi = baseApi.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Plan" as const, id })),
-              { type: "Plan" },
-            ]
+            ...result.map(({ id }) => ({ type: "Plan" as const, id })),
+            { type: "Plan" },
+          ]
           : [{ type: "Plan" }],
     }),
 
@@ -42,9 +42,12 @@ export const planApi = baseApi.injectEndpoints({
         method: "POST",
         body: {
           ...data,
-          // Ensure features are flattened from translations if needed
-          translations: data.translations.map((t) => ({
-            ...t,
+          translations: data.translations.map((t: any) => ({
+            language: t.language,
+            name: t.name,
+            description: t.description,
+            planDuration: t.planDuration,
+            planType: t.planType,
             features: t.features.filter(Boolean),
           })),
         },
@@ -64,8 +67,12 @@ export const planApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: {
           ...data,
-          translations: data.translations.map((t) => ({
-            ...t,
+          translations: data.translations.map((t: any) => ({
+            language: t.language,
+            name: t.name,
+            description: t.description,
+            planDuration: t.planDuration,
+            planType: t.planType,
             features: t.features.filter(Boolean),
           })),
         },
