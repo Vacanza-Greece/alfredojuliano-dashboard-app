@@ -101,15 +101,14 @@ const OnboardingTransports = () => {
 
     try {
       if (isEditMode && selectedTransport) {
-        const updateData: any = {
-          name: formData.name,
-          greek_name: formData.greek_name,
-        };
-        if (formData.icon) updateData.icon = formData.icon;
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("greek_name", formData.greek_name);
+        if (formData.icon) formDataToSend.append("icon", formData.icon);
 
         await updateTransport({
           id: selectedTransport.id,
-          data: updateData,
+          data: formDataToSend,
         }).unwrap();
         toast.success("Transport updated successfully");
       } else {

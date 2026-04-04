@@ -19,7 +19,7 @@ export const amenitiesApi = baseApi.injectEndpoints({
       invalidatesTags: ["Amenity"],
     }),
 
-    updateAmenity: builder.mutation<Amenity, { id: string; data: UpdateAmenityRequest }>({
+    updateAmenity: builder.mutation<Amenity, { id: string; data: FormData }>({
       query: ({ id, data }) => ({
         url: `/onboarding/amenities/${id}`,
         method: "PATCH",

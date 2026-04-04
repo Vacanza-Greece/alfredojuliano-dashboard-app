@@ -21,7 +21,7 @@ export const surroundingsApi = baseApi.injectEndpoints({
 
     updateSurrounding: builder.mutation<
       Surrounding,
-      { id: string; data: UpdateSurroundingRequest }
+      { id: string; data: FormData }
     >({
       query: ({ id, data }) => ({
         url: `/onboarding/surroundings/${id}`,

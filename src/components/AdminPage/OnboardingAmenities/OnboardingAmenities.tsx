@@ -94,15 +94,14 @@ const OnboardingAmenities = () => {
 
     try {
       if (isEditMode && selectedAmenity) {
-        const updateData: any = {
-          name: formData.name,
-          greek_name: formData.greek_name,
-        };
-        if (formData.icon) updateData.icon = formData.icon;
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("greek_name", formData.greek_name);
+        if (formData.icon) formDataToSend.append("icon", formData.icon);
 
         await updateAmenity({
           id: selectedAmenity.id,
-          data: updateData,
+          data: formDataToSend,
         }).unwrap();
         toast.success("Amenity updated successfully");
       } else {

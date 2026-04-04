@@ -21,7 +21,7 @@ export const transportsApi = baseApi.injectEndpoints({
 
     updateTransport: builder.mutation<
       Transport,
-      { id: string; data: UpdateTransportRequest }
+      { id: string; data: FormData }
     >({
       query: ({ id, data }) => ({
         url: `/onboarding/transports/${id}`,
