@@ -237,6 +237,11 @@ const ContractMessages = () => {
                           <p className="text-sm text-gray-500">
                             {message.email}
                           </p>
+                          {message.targetEmail && (
+                            <p className="text-[10px] text-blue-500 font-medium">
+                              To: {message.targetEmail}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center space-x-3 text-sm text-gray-500">

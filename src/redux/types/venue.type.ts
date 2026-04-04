@@ -17,6 +17,7 @@ export interface Message {
   name: string;
   email: string;
   opinion: string;
+  targetEmail?: string;
   createdAt: string;
   read?: boolean;
 }

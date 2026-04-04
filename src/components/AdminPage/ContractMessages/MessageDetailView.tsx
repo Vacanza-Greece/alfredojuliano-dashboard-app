@@ -53,6 +53,12 @@ const MessageDetailView = ({ message, onClose }: MessageDetailViewProps) => {
                 <FiMail className="mr-2" />
                 <span>{message.email}</span>
               </div>
+              {message.targetEmail && (
+                <div className="flex items-center text-blue-600 text-sm mt-1 font-medium">
+                  <FiMail className="mr-2" />
+                  <span>To: {message.targetEmail}</span>
+                </div>
+              )}
               <div className="flex items-center text-gray-500 text-sm mt-1">
                 <FiClock className="mr-2" />
                 <span>{formatDate(message.createdAt)}</span>
