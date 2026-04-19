@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       "example.com",
       "res.cloudinary.com",
       "img.examplecdn.com",
+      "lh3.googleusercontent.com",
     ],
   },
   eslint: {
