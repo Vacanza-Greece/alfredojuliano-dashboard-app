@@ -1,16 +1,79 @@
 // src/redux/types/badge.type.ts
-export type BadgeType = "GOLDEN_HOST" | "REVIEW_BADGE" | "EARLY_ADOPTER";
+export type BadgeType =
+  | "REVIEW_BADGE"
+  | "REGION_BADGE"
+  | "SUSTAINABILITY_BADGE"
+  | "SEASONAL_BADGE"
+  | "EXCHANGE_BADGE"
+  | "REFERRAL_BADGE"
+  | "VERIFICATION_BADGE"
+  | "LOYALTY_BADGE"
+  | "EARLY_ADOPTER"
+  | "PREMIUM_TRAVELER"
+  | "TOP_SUPPORTER"
+  | "ONE_YEAR_TRAVELER"
+  | "SUPPORTER"
+  | "GOLDEN_HOST"
+  | "VERIFIED"
+  | "DUO"
+  | "LOTS_OF_FRIENDS"
+  | "PURE_CHARISMA"
+  | "VIP"
+  | "DIAMOND_VIP"
+  | "THE_FIRST_TRADE"
+  | "EXPERIENCED"
+  | "VETERAN"
+  | "PHILOXENIA"
+  | "IT_MY_TOWN"
+  | "EMPIRE"
+  | "EXPLORER"
+  | "AUTUMN_TRAVELER"
+  | "AUTUMN_EXPERT_TRAVELER"
+  | "WINTER_TRAVELER"
+  | "WINTER_EXPERT_TRAVELER"
+  | "SPRING_TRAVELER"
+  | "SPRING_EXPERT_TRAVELER"
+  | "SUMMER_TRAVELER"
+  | "SUMMER_EXPERT_TRAVELER"
+  | "ECO_CONSCIOUS_HOST"
+  | "EVERY_EURO_COUNTS"
+  | "ATTICA"
+  | "ATTICA_EXPERT"
+  | "CENTRAL_GREECE"
+  | "CENTRAL_GREECE_EXPERT"
+  | "SPORADES"
+  | "SPORADES_EXPERT"
+  | "THRACE"
+  | "THRACE_EXPERT"
+  | "IONIAN"
+  | "IONIAN_EXPERT"
+  | "SARONIC"
+  | "SARONIC_EXPERT"
+  | "CRETE"
+  | "CRETE_EXPERT"
+  | "EPIRUS"
+  | "EPIRUS_EXPERT"
+  | "CYCLADES"
+  | "CYCLADES_EXPERT"
+  | "DODECANESE"
+  | "DODECANESE_EXPERT"
+  | "GREECE_TROTTER"
+  | "PELOPONNESE"
+  | "PELOPONNESE_EXPERT"
+  | "NORTH_AEGEAN"
+  | "NORTH_AEGEAN_EXPERT"
+  | "MACEDONIA"
+  | "MACEDONIA_EXPERT";
 
 export interface Badge {
   id: string;
   type: BadgeType;
   displayName: string;
-  greek_displayName: string;
-  badge_type: string;
-  description: string;
-  greek_description: string;
-  greek_discription: string;
-  icon: string; // URL
-  iconPublicId: string;
+  greek_displayName?: string;
+  badge_type?: string;
+  description?: string;
+  greek_discription?: string;
+  icon?: string; // URL
+  iconPublicId?: string;
   createdAt: string;
 }

@@ -80,6 +80,17 @@ export type BadgeType =
   | "MACEDONIA"
   | "MACEDONIA_EXPERT";
 
+const getImageUrl = (url: string | null | undefined) => {
+  if (!url) return "";
+  if (url.startsWith("http") || url.startsWith("data:")) return url;
+
+  // Use the current origin if we're on localhost, otherwise fallback to production
+  const isLocal = typeof window !== "undefined" && window.location.hostname === "localhost";
+  const baseUrl = isLocal ? window.location.origin : "https://vacanzagreece.gr";
+
+  return `${baseUrl}${url.startsWith("/") ? "" : "/"}${url}`;
+};
+
 const BadgeTable = () => {
   const { data: badges, isLoading, refetch } = useGetBadgesQuery();
   const [createBadge] = useCreateBadgeMutation();
@@ -100,7 +111,8 @@ const BadgeTable = () => {
     greek_displayName: string;
     description: string;
     greek_discription: string;
-    icon?: File | null;
+    icon: File | null;
+    iconUrl: string;
   }>({
     type: "",
     badge_type: "",
@@ -109,7 +121,12 @@ const BadgeTable = () => {
     description: "",
     greek_discription: "",
     icon: null,
+    iconUrl: "",
   });
+
+  const [preview, setPreview] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; // Adjust as needed
 
   const badgeTypes: BadgeType[] = [
     "REVIEW_BADGE",
@@ -186,10 +203,11 @@ const BadgeTable = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // handle file upload
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setForm({ ...form, icon: e.target.files[0] });
+      const file = e.target.files[0];
+      setForm({ ...form, icon: file });
+      setPreview(URL.createObjectURL(file));
     }
   };
 
@@ -208,6 +226,8 @@ const BadgeTable = () => {
 
     try {
       if (form.id) {
+        // If updating and icon is null, we might want to keep the old icon.
+        // Backend service already handles this if we don't send icon iconPublicId.
         await updateBadge({ id: form.id, data: formData }).unwrap();
         toast.success("Badge updated successfully");
       } else {
@@ -224,6 +244,7 @@ const BadgeTable = () => {
 
   const resetForm = () => {
     setForm({
+      id: undefined,
       type: "",
       badge_type: "",
       displayName: "",
@@ -231,8 +252,12 @@ const BadgeTable = () => {
       description: "",
       greek_discription: "",
       icon: null,
+      iconUrl: "",
     });
+    setPreview(null);
   };
+
+  const currentIcon = preview || getImageUrl(form.iconUrl);
 
   // handle edit
   const handleEdit = (badge: any) => {
@@ -245,7 +270,9 @@ const BadgeTable = () => {
       description: badge.description,
       greek_discription: badge.greek_discription || "",
       icon: null,
+      iconUrl: badge.icon || "",
     });
+    setPreview(null);
     setIsDialogOpen(true);
   };
 
@@ -269,6 +296,22 @@ const BadgeTable = () => {
   };
 
   if (isLoading) return <PageLoader />;
+
+  // Pagination logic
+  const totalItems = badges?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const currentItems = badges?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
 
   return (
     <div>
@@ -307,89 +350,125 @@ const BadgeTable = () => {
           </Button>
         </div> */}
 
-        {/* Badge Table */}
-        <div className="overflow-x-auto rounded-lg border border-gray-100">
-          <table className="min-w-full bg-white">
-            <thead className="bg-gray-100 text-gray-700 uppercase text-sm font-medium">
+        <div className="overflow-x-auto rounded-xl border border-gray-100 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+          <table className="min-w-full divide-y divide-gray-200 bg-white">
+            <thead className="bg-gray-50 text-gray-600 uppercase text-[11px] font-bold tracking-wider">
               <tr>
-                <th className="px-4 py-3 text-left whitespace-nowrap">
-                  Display Name
-                </th>
-                <th className="px-4 py-3 text-left whitespace-nowrap">
-                  Greek Name
-                </th>
-                <th className="px-4 py-3 text-left whitespace-nowrap">Type</th>
-                <th className="px-4 py-3 text-left whitespace-nowrap">
-                  Badge Type
-                </th>
-                <th className="px-4 py-3 text-left whitespace-nowrap">
-                  Description
-                </th>
-                <th className="px-4 py-3 text-left whitespace-nowrap">
-                  Greek Description
-                </th>
-                <th className="px-4 py-3 text-center whitespace-nowrap">
-                  Icon
-                </th>
-                <th className="px-4 py-3 text-right whitespace-nowrap">
-                  Actions
-                </th>
+                <th className="px-6 py-4 text-left">Badge Info</th>
+                <th className="px-6 py-4 text-left">Internal Status</th>
+                <th className="px-6 py-4 text-left">Descriptions</th>
+                <th className="px-6 py-4 text-center">Icon</th>
+                <th className="px-6 py-4 text-right sticky right-0 bg-gray-50 shadow-[-10px_0_15px_-10px_rgba(0,0,0,0.1)]">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {badges?.map((badge) => (
-                <tr key={badge.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                    {badge.displayName}
+            <tbody className="divide-y divide-gray-100 bg-white">
+              {currentItems?.map((badge) => (
+                <tr key={badge.id} className="hover:bg-blue-50/30 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-semibold text-gray-900">{badge.displayName}</div>
+                    <div className="text-xs text-gray-500 italic">{badge.greek_displayName || "—"}</div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                    {badge.greek_displayName || "—"}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-xs font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded w-fit mb-1">{badge.type}</div>
+                    <div className="text-[10px] text-gray-500 font-mono">{badge.badge_type || "N/A"}</div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                    {badge.type}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                    {badge.badge_type || "—"}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                    {badge.description?.split(" ").slice(0, 4).join(" ")}
-                    {badge.description?.split(" ").length > 4 && " ..."}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
-                    {badge.greek_discription?.split(" ").slice(0, 4).join(" ")}
-                    {badge.greek_discription?.split(" ").length > 4 && " ..."}
+                  <td className="px-6 py-4 max-w-xs transition-all">
+                    <div className="text-xs text-gray-600 line-clamp-1 mb-1" title={badge.description}>
+                      {badge.description}
+                    </div>
+                    <div className="text-[11px] text-gray-400 italic line-clamp-1" title={badge.greek_discription}>
+                      {badge.greek_discription || "—"}
+                    </div>
                   </td>
 
-                  <td className="px-4 py-3 text-center">
-                    {badge.icon && (
-                      <img
-                        src={badge.icon}
-                        alt="icon"
-                        className="w-10 h-10 rounded-full object-cover border border-gray-200 mx-auto"
-                      />
+                  <td className="px-6 py-4 text-center">
+                    {badge.icon ? (
+                      <div className="relative group mx-auto w-10 h-10">
+                        <img
+                          src={getImageUrl(badge.icon)}
+                          alt="icon"
+                          className="w-10 h-10 rounded-lg object-contain bg-gray-50 border border-gray-100 shadow-sm transition-transform group-hover:scale-110"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-lg bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center mx-auto">
+                        <span className="text-[9px] text-gray-400">None</span>
+                      </div>
                     )}
                   </td>
-                  <td className="flex justify-end text-center px-4 py-3 space-x-2">
-                    <button
-                      onClick={() => handleEdit(badge)}
-                      className="p-2 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-800 transition cursor-pointer"
-                    >
-                      <LiaEdit className="w-5 h-5" />
-                    </button>
-                    
-                    <button
-                      onClick={() => confirmDelete(badge.id)}
-                      className="p-2 rounded-md bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-800 transition cursor-pointer"
-                    >
-                      <MdDelete className="w-5 h-5" />
-                    </button>
+                  <td className="px-6 py-4 sticky right-0 bg-white shadow-[-10px_0_15px_-10px_rgba(0,0,0,0.1)]">
+                    <div className="flex items-center justify-end space-x-2">
+                      <button
+                        title="Edit Badge"
+                        onClick={() => handleEdit(badge)}
+                        className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-200 cursor-pointer"
+                      >
+                        <LiaEdit className="w-5 h-5" />
+                      </button>
+
+                      <button
+                        title="Delete Badge"
+                        onClick={() => confirmDelete(badge.id)}
+                        className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 cursor-pointer"
+                      >
+                        <MdDelete className="w-5 h-5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        {/* Pagination UI */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-6 px-2">
+            <p className="text-sm text-gray-600 font-medium">
+              Showing <span className="text-blue-600">{(currentPage - 1) * itemsPerPage + 1}</span> to{" "}
+              <span className="text-blue-600">{Math.min(currentPage * itemsPerPage, totalItems)}</span> of {totalItems}
+            </p>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-lg border transition-all ${
+                  currentPage === 1
+                    ? "bg-gray-50 text-gray-400 cursor-not-allowed"
+                    : "bg-white text-gray-700 hover:bg-gray-50 hover:border-blue-300 active:scale-95 cursor-pointer"
+                }`}
+              >
+                Previous
+              </button>
+              <div className="flex items-center mx-2 space-x-1">
+                {[...Array(totalPages)].map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentPage(idx + 1)}
+                    className={`w-8 h-8 rounded-lg text-sm font-semibold transition-all ${
+                      currentPage === idx + 1
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-200"
+                        : "bg-white text-gray-600 hover:bg-gray-50 cursor-pointer"
+                    }`}
+                  >
+                    {idx + 1}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className={`p-2 rounded-lg border transition-all ${
+                  currentPage === totalPages
+                    ? "bg-gray-50 text-gray-400 cursor-not-allowed"
+                    : "bg-white text-gray-700 hover:bg-gray-50 hover:border-blue-300 active:scale-95 cursor-pointer"
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Dialog Modal */}
         {isDialogOpen && (
@@ -507,20 +586,36 @@ const BadgeTable = () => {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Upload Icon (SVG)
-                    </label>
-                    <input
-                      type="file"
-                      id="iconUpload"
-                      onChange={handleFileChange}
-                      accept="image/svg+xml,image/*"
-                      className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-l-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition"
-                    />
-                    <p className="mt-1 text-xs text-gray-500">
-                      Please upload an SVG or image file (max 2MB).
-                    </p>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-1">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Upload Icon (SVG Preferred)
+                      </label>
+                      <input
+                        type="file"
+                        id="iconUpload"
+                        onChange={handleFileChange}
+                        accept="image/svg+xml,image/*"
+                        className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-l-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition"
+                      />
+                      <p className="mt-1 text-xs text-gray-500">
+                        Please upload an SVG or image file (max 2MB).
+                      </p>
+                    </div>
+                    {(preview || form.iconUrl) && (
+                      <div className="shrink-0">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Preview
+                        </label>
+                        <div className="w-16 h-16 rounded-lg border-2 border-dashed border-gray-200 p-1 flex items-center justify-center bg-gray-50">
+                          <img
+                            src={currentIcon}
+                            alt="preview"
+                            className="w-full h-full object-contain rounded-md"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* Buttons */}
