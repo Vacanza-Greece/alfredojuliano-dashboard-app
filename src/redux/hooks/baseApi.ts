@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
 
-const baseURL = "https://vacanzagreece.gr/api";
-// const baseURL = "http://localhost:3000/api";
+// const baseURL = "https://vacanzagreece.gr/api";
+const baseURL = "http://localhost:3000/api";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: baseURL,

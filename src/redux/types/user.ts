@@ -24,6 +24,7 @@ export interface Onboarding {
   favoriteDestinations?: string[] | null;
   travelMostlyWith?: string | null;
   isTravelWithPets?: boolean;
+  address: string;
   notes?: string | null;
   maxPeople?: number | null;
   propertyType?: string | null;

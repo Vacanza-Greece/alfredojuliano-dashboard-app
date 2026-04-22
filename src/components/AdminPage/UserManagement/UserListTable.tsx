@@ -771,6 +771,16 @@ export default function UserListTable() {
                       </div>
                     )}
 
+                  {/* address  */}
+                  {singleUser.onboarding.address && (
+                    <div>
+                      <h4 className="font-semibold mb-1">Address</h4>
+                      <p className="text-gray-600 p-3 bg-gray-50 rounded-lg">
+                        {singleUser.onboarding.address}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Notes */}
                   {singleUser.onboarding.notes && (
                     <div>
