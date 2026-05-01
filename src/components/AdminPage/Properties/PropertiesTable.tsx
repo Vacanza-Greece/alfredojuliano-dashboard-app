@@ -26,7 +26,7 @@ const PropertiesTable: React.FC = () => {
   const filters = useAppSelector((state) => state.properties.filters);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const [propertyToDelete, setPropertyToDelete] = useState<Property | null>(
     null
@@ -361,20 +361,48 @@ const PropertiesTable: React.FC = () => {
 
       {/* Pagination */}
       {filteredProperties.length > 0 && (
-        <div className="mt-6 flex items-center justify-between">
-          <p className="text-sm text-gray-600">
-            Showing{" "}
-            <span className="font-medium">{currentProperties.length}</span> of{" "}
-            <span className="font-medium">{filteredProperties.length}</span>{" "}
-            properties
-          </p>
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-gray-600">
+              Showing{" "}
+              <span className="font-medium">
+                {Math.min(indexOfFirstItem + 1, filteredProperties.length)}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium">
+                {Math.min(indexOfLastItem, filteredProperties.length)}
+              </span>{" "}
+              of{" "}
+              <span className="font-medium">{filteredProperties.length}</span>{" "}
+              properties
+            </p>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Show</span>
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {[5, 10, 20, 50, 100].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
               disabled={currentPage === 1}
               className={`px-3 py-1.5 border cursor-pointer rounded-lg text-sm ${currentPage === 1
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-gray-100"
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-100"
                 }`}
             >
               Prev
@@ -386,8 +414,8 @@ const PropertiesTable: React.FC = () => {
               onClick={handleNext}
               disabled={currentPage === totalPages}
               className={`px-3 py-1.5 border cursor-pointer rounded-lg text-sm ${currentPage === totalPages
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-gray-100"
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-100"
                 }`}
             >
               Next
@@ -460,7 +488,7 @@ const PropertiesTable: React.FC = () => {
                   {/* Image Gallery */}
                   <div className="space-y-4">
                     <div
-                      className="rounded-xl overflow-hidden aspect-[16/10] bg-gray-100 cursor-zoom-in"
+                      className="rounded-xl overflow-hidden aspect-16/10 bg-gray-100 cursor-zoom-in"
                       onClick={() => openFullScreen(0)}
                     >
                       <img
@@ -710,7 +738,7 @@ const PropertiesTable: React.FC = () => {
       )}
       {/* Full Screen Image Viewer */}
       {isFullScreenOpen && propertyDetails && (
-        <div 
+        <div
           className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 group"
           onClick={closeFullScreen}
         >
@@ -741,7 +769,7 @@ const PropertiesTable: React.FC = () => {
           )}
 
           {/* Image Container */}
-          <div 
+          <div
             className="relative w-full h-full flex flex-col items-center justify-center gap-4"
             onClick={(e) => e.stopPropagation()}
           >
@@ -750,7 +778,7 @@ const PropertiesTable: React.FC = () => {
               className="max-w-full max-h-[85vh] object-contain shadow-2xl animate-in zoom-in duration-300"
               alt="Full Size"
             />
-            
+
             {/* Image Counter */}
             <div className="text-white/70 font-medium text-sm bg-white/10 px-4 py-1.5 rounded-full">
               {currentImageIndex + 1} / {propertyDetails.images.length}

@@ -13,7 +13,10 @@ import {
   getCoreRowModel,
   flexRender,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
 } from "@tanstack/react-table";
+import { HiChevronUp, HiChevronDown, HiSelector } from "react-icons/hi";
 
 import {
   useDeleteUserMutation,
@@ -149,6 +152,7 @@ export default function UserListTable() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openBadgeDialog, setOpenBadgeDialog] = useState(false);
   const [openViewDialog, setOpenViewDialog] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const [selectedBadge, setSelectedBadge] = useState<BadgeType>(
     BadgeType.VERIFIED
@@ -255,14 +259,39 @@ export default function UserListTable() {
     },
     {
       accessorKey: "isSubscribed",
-      header: "Subscription",
+      header: ({ column }) => (
+        <div
+          className="flex items-center gap-1 cursor-pointer select-none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Subscription
+          <HiSelector className="h-4 w-4 text-gray-500" />
+        </div>
+      ),
       cell: ({ row }) => (
         <SubscriptionBadge isSubscribed={row.original.isSubscribed} />
       ),
     },
     {
       accessorKey: "createdAt",
-      header: "Joined",
+      header: ({ column }) => (
+        <div
+          className="flex items-center gap-1 cursor-pointer select-none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Joined
+          <div className="flex flex-col">
+            <HiChevronUp
+              className={`h-3 w-3 -mb-1 ${column.getIsSorted() === "asc" ? "text-blue-600" : "text-gray-400"
+                }`}
+            />
+            <HiChevronDown
+              className={`h-3 w-3 ${column.getIsSorted() === "desc" ? "text-blue-600" : "text-gray-400"
+                }`}
+            />
+          </div>
+        </div>
+      ),
       cell: ({ row }) =>
         new Date(row.original.createdAt).toLocaleDateString("en-US", {
           year: "numeric",
@@ -337,8 +366,13 @@ export default function UserListTable() {
   const table = useReactTable({
     data: filteredData,
     columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     initialState: { pagination: { pageSize: 7 } },
   });
 
@@ -406,24 +440,46 @@ export default function UserListTable() {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-between items-center px-6 py-4 border-t">
-          <p className="text-sm text-gray-600">
-            Showing{" "}
-            <span className="font-medium">
-              {table.getState().pagination.pageIndex *
-                table.getState().pagination.pageSize +
-                1}
-            </span>{" "}
-            to{" "}
-            <span className="font-medium">
-              {Math.min(
-                (table.getState().pagination.pageIndex + 1) *
-                table.getState().pagination.pageSize,
-                filteredData.length
-              )}
-            </span>{" "}
-            of <span className="font-medium">{filteredData.length}</span> users
-          </p>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 px-6 py-4 border-t">
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-gray-600">
+              Showing{" "}
+              <span className="font-medium">
+                {table.getRowModel().rows.length > 0
+                  ? table.getState().pagination.pageIndex *
+                      table.getState().pagination.pageSize +
+                    1
+                  : 0}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium">
+                {Math.min(
+                  (table.getState().pagination.pageIndex + 1) *
+                    table.getState().pagination.pageSize,
+                  filteredData.length
+                )}
+              </span>{" "}
+              of <span className="font-medium">{filteredData.length}</span> users
+            </p>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Show</span>
+              <select
+                value={table.getState().pagination.pageSize}
+                onChange={(e) => {
+                  table.setPageSize(Number(e.target.value));
+                }}
+                className="border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {[5, 10, 20, 50, 100].map((pageSize) => (
+                  <option key={pageSize} value={pageSize}>
+                    {pageSize}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="flex gap-2">
             <Button
               onClick={() => table.previousPage()}
