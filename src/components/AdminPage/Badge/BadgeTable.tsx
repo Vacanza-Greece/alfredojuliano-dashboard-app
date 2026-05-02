@@ -26,7 +26,7 @@ export type BadgeType =
   | "EARLY_ADOPTER"
   | "PREMIUM_TRAVELER"
   | "TOP_SUPPORTER"
-  | "ONE_YEAR_TRAVELER"
+  | "TRAVELER"
   | "SUPPORTER"
   | "GOLDEN_HOST"
   | "VERIFIED"
@@ -140,7 +140,7 @@ const BadgeTable = () => {
     "EARLY_ADOPTER",
     "PREMIUM_TRAVELER",
     "TOP_SUPPORTER",
-    "ONE_YEAR_TRAVELER",
+    "TRAVELER",
     "SUPPORTER",
     "GOLDEN_HOST",
     "VERIFIED",
@@ -432,11 +432,10 @@ const BadgeTable = () => {
               <button
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
-                className={`p-2 rounded-lg border transition-all ${
-                  currentPage === 1
+                className={`p-2 rounded-lg border transition-all ${currentPage === 1
                     ? "bg-gray-50 text-gray-400 cursor-not-allowed"
                     : "bg-white text-gray-700 hover:bg-gray-50 hover:border-blue-300 active:scale-95 cursor-pointer"
-                }`}
+                  }`}
               >
                 Previous
               </button>
@@ -445,11 +444,10 @@ const BadgeTable = () => {
                   <button
                     key={idx}
                     onClick={() => setCurrentPage(idx + 1)}
-                    className={`w-8 h-8 rounded-lg text-sm font-semibold transition-all ${
-                      currentPage === idx + 1
+                    className={`w-8 h-8 rounded-lg text-sm font-semibold transition-all ${currentPage === idx + 1
                         ? "bg-blue-600 text-white shadow-md shadow-blue-200"
                         : "bg-white text-gray-600 hover:bg-gray-50 cursor-pointer"
-                    }`}
+                      }`}
                   >
                     {idx + 1}
                   </button>
@@ -458,11 +456,10 @@ const BadgeTable = () => {
               <button
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
-                className={`p-2 rounded-lg border transition-all ${
-                  currentPage === totalPages
+                className={`p-2 rounded-lg border transition-all ${currentPage === totalPages
                     ? "bg-gray-50 text-gray-400 cursor-not-allowed"
                     : "bg-white text-gray-700 hover:bg-gray-50 hover:border-blue-300 active:scale-95 cursor-pointer"
-                }`}
+                  }`}
               >
                 Next
               </button>
