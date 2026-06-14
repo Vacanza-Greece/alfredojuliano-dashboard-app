@@ -1,49 +1,40 @@
 name: Docker CI/CD Workflow
-
 on:
   push:
     branches:
-      - main  # Trigger action on push to the main branch
-
+      - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    # Step 1: Checkout code from GitHub repository
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Step 2: Set up Docker Buildx for multi-platform support (optional)
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    # Step 3: Log in to Docker Hub
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # Step 4: Build the Docker image and tag it
     - name: Build Docker image
       run: |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/alfredo-dashboard:latest .
 
-    # Step 5: Push the image to Docker Hub
     - name: Push Docker image to Docker Hub
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/alfredo-dashboard:latest
 
-   # Step 6: SSH into VPS and deploy
-    - name: SSH into VPS and deploy the updated Docker image
+    - name: SSH into VPS and deploy
       uses: appleboy/ssh-action@v0.1.6
       with:
         host: ${{ secrets.VPS_HOST }}
-        username: root
+        username: juliano
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
-          docker compose -f /root/compose.yaml down
-          docker compose -f /root/compose.yaml pull
-          docker compose -f /root/compose.yaml up -d
-          docker image prune -f
+          sudo docker compose -f /root/alfredo_server/compose.yaml down
+          sudo docker compose -f /root/alfredo_server/compose.yaml pull
+          sudo docker compose -f /root/alfredo_server/compose.yaml up -d
+          sudo docker image prune -f
