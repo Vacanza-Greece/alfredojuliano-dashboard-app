@@ -18,11 +18,10 @@ const authApi = baseApi.injectEndpoints({
         url: "auth/logout",
         method: "POST",
         headers: {
-          Authorization: `Bearer ${
-            typeof window !== "undefined"
+          Authorization: `Bearer ${typeof window !== "undefined"
               ? localStorage.getItem("token") || ""
               : ""
-          }`,
+            }`,
         },
         body: {},
       }),

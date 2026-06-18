@@ -5,7 +5,7 @@ export const newsLetterApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // GET /web-subscribe  -> list all subscribers
     getAllNewsletters: builder.query<
-      Array<{ id: string; email: string; createdAt?: string }>,
+      Array<{ id: string; name?: string; email: string; createdAt?: string }>,
       void
     >({
       query: () => ({
@@ -29,8 +29,8 @@ export const newsLetterApi = baseApi.injectEndpoints({
 
     // POST /web-subscribe -> add a new subscriber
     addNewsletter: builder.mutation<
-      { id: string; email: string },
-      { email: string }
+      { id: string; name?: string; email: string },
+      { name?: string; email: string }
     >({
       query: (body) => ({
         url: "/web-subscribe",
@@ -41,24 +41,26 @@ export const newsLetterApi = baseApi.injectEndpoints({
       transformResponse: (response: any) => response?.data ?? response,
     }),
 
-    // DELETE -> delete subscriber by id OR by email
-    // If caller passes an id (uuid), we call /web-subscribe/{id}
-    // If the param looks like an email (contains @) call /web-subscribe?email=<email>
+    // PATCH /web-subscribe/:id -> update subscriber
+    updateNewsletter: builder.mutation<
+      { id: string; name?: string; email: string },
+      { id: string; name?: string; email?: string }
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/web-subscribe/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [{ type: "Message", id: "LIST" }],
+      transformResponse: (response: any) => response?.data ?? response,
+    }),
+
+    // DELETE /web-subscribe/:id -> delete subscriber
     deleteNewsletter: builder.mutation<any, string>({
-      query: (idOrEmail) => {
-        const looksLikeEmail = idOrEmail.includes("@");
-        if (looksLikeEmail) {
-          return {
-            url: `/web-subscribe?email=${encodeURIComponent(idOrEmail)}`,
-            method: "DELETE",
-          };
-        } else {
-          return {
-            url: `/web-subscribe/${encodeURIComponent(idOrEmail)}`,
-            method: "DELETE",
-          };
-        }
-      },
+      query: (id) => ({
+        url: `/web-subscribe/${id}`,
+        method: "DELETE",
+      }),
       invalidatesTags: [{ type: "Message", id: "LIST" }],
     }),
 
@@ -82,6 +84,7 @@ export const newsLetterApi = baseApi.injectEndpoints({
 export const {
   useGetAllNewslettersQuery,
   useAddNewsletterMutation,
+  useUpdateNewsletterMutation,
   useDeleteNewsletterMutation,
   useSendPromotionalMailMutation,
 } = newsLetterApi;

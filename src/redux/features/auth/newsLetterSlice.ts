@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Newsletter = {
   id?: string;
+  name?: string;
   email: string;
   createdAt?: string;
 };
