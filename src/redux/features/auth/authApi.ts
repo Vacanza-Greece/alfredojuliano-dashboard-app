@@ -13,14 +13,16 @@ const authApi = baseApi.injectEndpoints({
       }
     ),
 
+    //added comment for no reason
+
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
         url: "auth/logout",
         method: "POST",
         headers: {
           Authorization: `Bearer ${typeof window !== "undefined"
-              ? localStorage.getItem("token") || ""
-              : ""
+            ? localStorage.getItem("token") || ""
+            : ""
             }`,
         },
         body: {},
