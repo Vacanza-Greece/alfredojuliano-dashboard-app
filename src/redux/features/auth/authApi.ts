@@ -13,7 +13,7 @@ const authApi = baseApi.injectEndpoints({
       }
     ),
 
-    //added comment for no reason
+    //added commit for no reason....
 
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
