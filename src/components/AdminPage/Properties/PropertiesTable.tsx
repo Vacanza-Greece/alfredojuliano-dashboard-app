@@ -7,8 +7,10 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import {
   useDeletePropertyMutation,
   useGetPropertiesQuery,
+  useUpdatePropertyMutation,
 } from "@/redux/features/auth/propertiesApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/redux-hook";
+import { toast } from "sonner";
 import {
   clearFilters,
   setFilters,
@@ -22,8 +24,25 @@ const PropertiesTable: React.FC = () => {
     error,
   } = useGetPropertiesQuery();
   const [deleteProperty] = useDeletePropertyMutation();
+  const [updateProperty, { isLoading: isUpdatingCover }] = useUpdatePropertyMutation();
   const dispatch = useAppDispatch();
   const filters = useAppSelector((state) => state.properties.filters);
+
+  const handleSetCover = async (e: React.MouseEvent, imageUrl: string) => {
+    e.stopPropagation();
+    if (!propertyDetails) return;
+    try {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify({ coverImage: imageUrl }));
+      await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
+      // Update local modal state to reflect the new cover image without losing populated fields
+      setPropertyDetails((prev) => prev ? { ...prev, coverImage: imageUrl } : null);
+      toast.success("Cover image updated successfully");
+    } catch (error) {
+      console.error("Cover update error:", error);
+      toast.error("Failed to update cover image");
+    }
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -488,7 +507,11 @@ const PropertiesTable: React.FC = () => {
                   {/* Image Gallery */}
                   <div className="space-y-4">
                     <div
-                      className="rounded-xl overflow-hidden aspect-16/10 bg-gray-100 cursor-zoom-in"
+                      className={`relative rounded-xl overflow-hidden aspect-16/10 bg-gray-100 cursor-zoom-in group ${
+                        propertyDetails.images[0]?.url === propertyDetails.coverImage
+                          ? "ring-4 ring-green-500 ring-offset-2"
+                          : ""
+                      }`}
                       onClick={() => openFullScreen(0)}
                     >
                       <img
@@ -496,22 +519,54 @@ const PropertiesTable: React.FC = () => {
                         alt="Property Main"
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
+                      {propertyDetails.images[0]?.url === propertyDetails.coverImage ? (
+                        <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-lg">
+                          ★ Cover Image
+                        </span>
+                      ) : (
+                        <button
+                          onClick={(e) => handleSetCover(e, propertyDetails.images[0].url)}
+                          disabled={isUpdatingCover}
+                          className="absolute top-3 left-3 bg-black/75 hover:bg-green-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                        >
+                          Set as Cover
+                        </button>
+                      )}
                     </div>
                     {propertyDetails.images.length > 1 && (
                       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                        {propertyDetails.images.slice(1).map((img, idx) => (
-                          <div
-                            key={idx}
-                            className="rounded-lg overflow-hidden aspect-square bg-gray-100 border cursor-zoom-in group"
-                            onClick={() => openFullScreen(idx + 1)}
-                          >
-                            <img
-                              src={img.url}
-                              alt={`Property ${idx + 2}`}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                            />
-                          </div>
-                        ))}
+                        {propertyDetails.images.slice(1).map((img, idx) => {
+                          const imgIdx = idx + 1;
+                          const isCover = img.url === propertyDetails.coverImage;
+                          return (
+                            <div
+                              key={idx}
+                              className={`relative rounded-lg overflow-hidden aspect-square bg-gray-100 border cursor-zoom-in group ${
+                                isCover ? "ring-2 ring-green-500 ring-offset-1" : ""
+                              }`}
+                              onClick={() => openFullScreen(imgIdx)}
+                            >
+                              <img
+                                src={img.url}
+                                alt={`Property ${imgIdx + 1}`}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              />
+                              {isCover ? (
+                                <span className="absolute top-1 left-1 bg-green-600 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded shadow">
+                                  Cover
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={(e) => handleSetCover(e, img.url)}
+                                  disabled={isUpdatingCover}
+                                  className="absolute top-1 left-1 bg-black/75 hover:bg-green-600 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                                >
+                                  Set Cover
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -779,9 +834,25 @@ const PropertiesTable: React.FC = () => {
               alt="Full Size"
             />
 
-            {/* Image Counter */}
-            <div className="text-white/70 font-medium text-sm bg-white/10 px-4 py-1.5 rounded-full">
-              {currentImageIndex + 1} / {propertyDetails.images.length}
+            {/* Image Counter & Actions */}
+            <div className="flex flex-col items-center gap-4 mt-2">
+              <div className="text-white/70 font-medium text-sm bg-white/10 px-4 py-1.5 rounded-full">
+                {currentImageIndex + 1} / {propertyDetails.images.length}
+              </div>
+              
+              {propertyDetails.images[currentImageIndex]?.url === propertyDetails.coverImage ? (
+                <span className="bg-green-600/90 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-lg backdrop-blur-sm border border-green-500/30">
+                  ★ Current Cover Image
+                </span>
+              ) : (
+                <button
+                  onClick={(e) => handleSetCover(e, propertyDetails.images[currentImageIndex].url)}
+                  disabled={isUpdatingCover}
+                  className="bg-white/10 hover:bg-green-600/90 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-lg backdrop-blur-sm border border-white/20 hover:border-green-500/30 transition-all duration-300 cursor-pointer disabled:opacity-50"
+                >
+                  {isUpdatingCover ? "Updating..." : "Set as Cover"}
+                </button>
+              )}
             </div>
           </div>
         </div>

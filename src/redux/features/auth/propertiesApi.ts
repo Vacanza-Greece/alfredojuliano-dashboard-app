@@ -7,8 +7,12 @@ import {
 
 export const propertiesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProperties: builder.query<PropertiesResponse, void>({
-      query: () => "/property",
+    getProperties: builder.query<PropertiesResponse, { limit?: number; page?: number } | void>({
+      query: (params) => {
+        const limit = params?.limit ?? 9999;
+        const page = params?.page ?? 1;
+        return `/property?limit=${limit}&page=${page}`;
+      },
       providesTags: ["Property"],
     }),
 
@@ -36,11 +40,11 @@ export const propertiesApi = baseApi.injectEndpoints({
 
     updateProperty: builder.mutation<
       Property,
-      { id: string; data: Partial<Property> }
+      { id: string; data: any }
     >({
       query: ({ id, data }) => ({
         url: `/property/${id}`,
-        method: "PUT",
+        method: "PATCH",
         body: data,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Property", id }],

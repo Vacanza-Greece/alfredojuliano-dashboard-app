@@ -82,6 +82,7 @@ export interface Property {
   amenities: Amenity[];
   transports: Transport[];
   surroundings: Surrounding[];
+  coverImage?: string | null;
 }
 
 export interface PropertiesResponse {

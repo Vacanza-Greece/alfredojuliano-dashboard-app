@@ -23,8 +23,11 @@ import {
   useGiveBadgeMutation,
   useGetUsersQuery,
   useGetUserByIdQuery,
+  useUpdateUserSubscriptionMutation,
   BadgeType,
 } from "@/redux/features/auth/userApi";
+import { useGetPlansQuery } from "@/redux/features/auth/planApi";
+import { toast } from "sonner";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/redux-hook";
 import { setSearchTerm } from "@/redux/features/auth/userSlice";
@@ -169,6 +172,23 @@ export default function UserListTable() {
 
   const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
   const [giveBadge] = useGiveBadgeMutation();
+  const { data: plans = [] } = useGetPlansQuery();
+  const [updateUserSubscription, { isLoading: isUpdatingSub }] = useUpdateUserSubscriptionMutation();
+
+  const handleSubscriptionChange = async (userId: string, value: string) => {
+    try {
+      if (value === "NOT_SUBSCRIBED") {
+        await updateUserSubscription({ id: userId, isSubscribed: false }).unwrap();
+        toast.success("User unsubscribed successfully");
+      } else {
+        await updateUserSubscription({ id: userId, isSubscribed: true, planId: value }).unwrap();
+        toast.success("User subscription updated successfully");
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.data?.message || "Failed to update subscription");
+    }
+  };
 
   // ---------- Handlers ----------
   const handleView = (id: string) => {
@@ -268,9 +288,32 @@ export default function UserListTable() {
           <HiSelector className="h-4 w-4 text-gray-500" />
         </div>
       ),
-      cell: ({ row }) => (
-        <SubscriptionBadge isSubscribed={row.original.isSubscribed} />
-      ),
+      cell: ({ row }) => {
+        const user = row.original;
+        const currentPlanId = user.subscriptions?.[0]?.planId || "NOT_SUBSCRIBED";
+        return (
+          <select
+            value={currentPlanId}
+            disabled={isUpdatingSub}
+            onChange={(e) => handleSubscriptionChange(user.id, e.target.value)}
+            className={`px-3 py-1.5 text-xs rounded-full font-medium border cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+              user.isSubscribed
+                ? "bg-green-50 border-green-200 text-green-700 hover:bg-green-100"
+                : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            <option value="NOT_SUBSCRIBED">Not Subscribed</option>
+            {plans.map((plan) => {
+              const planName = plan.translations.find((t) => t.language === "en")?.name || plan.translations[0]?.name || "Plan";
+              return (
+                <option key={plan.id} value={plan.id}>
+                  {planName}
+                </option>
+              );
+            })}
+          </select>
+        );
+      },
     },
     {
       accessorKey: "createdAt",

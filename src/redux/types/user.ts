@@ -65,4 +65,8 @@ export interface User {
   achievementBadges?: AchievementBadge[];
   onboarding?: Onboarding | null;
   identification?: string | null;
+  subscriptions?: {
+    planId?: string;
+    [key: string]: any;
+  }[];
 }

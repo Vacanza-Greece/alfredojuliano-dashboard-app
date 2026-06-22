@@ -40,6 +40,7 @@ export interface Property {
   ownerId: string;
   createdAt: string;
   updatedAt: string;
+  coverImage?: string | null;
 }
 
 export interface ChatMessage {

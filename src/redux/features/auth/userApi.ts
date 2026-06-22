@@ -114,6 +114,16 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
+    // ✅ Add subscription mutation
+    updateUserSubscription: build.mutation({
+      query: ({ id, isSubscribed, planId }: { id: string; isSubscribed: boolean; planId?: string }) => ({
+        url: `/user/subscription/${id}`,
+        method: "PATCH",
+        body: { isSubscribed, planId },
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -124,6 +134,7 @@ export const {
   useUpdateUserRoleMutation, // ✅ Export mutation
   useGiveBadgeMutation, // ✅ Export mutation
   useGetUserByIdQuery,
+  useUpdateUserSubscriptionMutation, // ✅ Export mutation
 } = userApi;
 
 // // src/redux/features/auth/userApi.ts
