@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || process.env.VITE_API_URL;
+const baseURL = process.env.NEXT_PUBLIC_API_URL || process.env.VITE_API_URL || "https://vacanzagreece.gr/api";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: baseURL,
