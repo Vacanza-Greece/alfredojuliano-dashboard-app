@@ -44,6 +44,41 @@ const PropertiesTable: React.FC = () => {
     }
   };
 
+  const handleDeleteImage = async (e: React.MouseEvent, publicId: string) => {
+    e.stopPropagation();
+    if (!propertyDetails) return;
+    if (confirm("Are you sure you want to delete this image?")) {
+      try {
+        const formData = new FormData();
+        formData.append("data", JSON.stringify({ removeImages: [publicId] }));
+        const res = await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
+        setPropertyDetails(res);
+        toast.success("Image deleted successfully");
+      } catch (error) {
+        console.error("Delete image error:", error);
+        toast.error("Failed to delete image");
+      }
+    }
+  };
+
+  const handleAddImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !propertyDetails) return;
+    try {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify({})); // Backend requires JSON string in data
+      Array.from(files).forEach((file) => formData.append("files", file));
+      const res = await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
+      setPropertyDetails(res);
+      toast.success("Images added successfully");
+    } catch (error) {
+      console.error("Add image error:", error);
+      toast.error("Failed to add images");
+    }
+    // clear input
+    e.target.value = "";
+  };
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -506,6 +541,27 @@ const PropertiesTable: React.FC = () => {
                 <div className="space-y-6">
                   {/* Image Gallery */}
                   <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                        Image Gallery
+                      </h3>
+                      <div>
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/*"
+                          onChange={handleAddImages}
+                          className="hidden"
+                          id="add-images"
+                        />
+                        <label
+                          htmlFor="add-images"
+                          className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 cursor-pointer transition-colors shadow-sm inline-block"
+                        >
+                          + Add Photos
+                        </label>
+                      </div>
+                    </div>
                     <div
                       className={`relative rounded-xl overflow-hidden aspect-16/10 bg-gray-100 cursor-zoom-in group ${
                         propertyDetails.images[0]?.url === propertyDetails.coverImage
@@ -532,6 +588,13 @@ const PropertiesTable: React.FC = () => {
                           Set as Cover
                         </button>
                       )}
+                      <button
+                        onClick={(e) => handleDeleteImage(e, propertyDetails.images[0].publicId)}
+                        className="absolute top-3 right-3 bg-red-600/90 hover:bg-red-700 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer shadow-lg"
+                        title="Delete Image"
+                      >
+                        <MdDelete className="w-4 h-4" />
+                      </button>
                     </div>
                     {propertyDetails.images.length > 1 && (
                       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
@@ -564,6 +627,13 @@ const PropertiesTable: React.FC = () => {
                                   Set Cover
                                 </button>
                               )}
+                              <button
+                                onClick={(e) => handleDeleteImage(e, img.publicId)}
+                                className="absolute top-1 right-1 bg-red-600/90 hover:bg-red-700 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer shadow"
+                                title="Delete Image"
+                              >
+                                <MdDelete className="w-3 h-3" />
+                              </button>
                             </div>
                           );
                         })}
