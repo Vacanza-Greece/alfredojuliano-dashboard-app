@@ -52,7 +52,7 @@ const PropertiesTable: React.FC = () => {
         const formData = new FormData();
         formData.append("data", JSON.stringify({ removeImages: [publicId] }));
         const res = await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
-        setPropertyDetails(res);
+        setPropertyDetails((prev) => prev ? { ...res, owner: prev.owner } : null);
         toast.success("Image deleted successfully");
       } catch (error) {
         console.error("Delete image error:", error);
@@ -69,7 +69,7 @@ const PropertiesTable: React.FC = () => {
       formData.append("data", JSON.stringify({})); // Backend requires JSON string in data
       Array.from(files).forEach((file) => formData.append("files", file));
       const res = await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
-      setPropertyDetails(res);
+      setPropertyDetails((prev) => prev ? { ...res, owner: prev.owner } : null);
       toast.success("Images added successfully");
     } catch (error) {
       console.error("Add image error:", error);
