@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 
 const baseURL = "https://vacanzagreece.gr/api";
+// const baseURL = "http://localhost:3000/api";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: baseURL,
