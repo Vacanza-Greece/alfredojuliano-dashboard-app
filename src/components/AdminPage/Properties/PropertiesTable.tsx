@@ -11,11 +11,12 @@ import {
 } from "@/redux/features/auth/propertiesApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/redux-hook";
 import { toast } from "sonner";
-import {
-  clearFilters,
-  setFilters,
-} from "@/redux/features/auth/propertiesSlice";
+import { clearFilters, setFilters } from "@/redux/features/auth/propertiesSlice";
 import { Property } from "@/redux/types/property";
+
+const isVideoUrl = (url: string) => {
+  return url?.match(/\.(mp4|webm|ogg|mov)$/i);
+};
 
 const PropertiesTable: React.FC = () => {
   const {
@@ -58,6 +59,36 @@ const PropertiesTable: React.FC = () => {
         console.error("Delete image error:", error);
         toast.error("Failed to delete image");
       }
+    }
+  };
+
+  const handleUpdateField = async (field: string, value: any) => {
+    if (!propertyDetails) return;
+    try {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify({ [field]: value }));
+      await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
+      setPropertyDetails((prev) => (prev ? { ...prev, [field]: value } : null));
+      toast.success("Updated successfully");
+    } catch (error) {
+      console.error(`Update ${field} error:`, error);
+      toast.error("Failed to update");
+    }
+  };
+
+  const handleSaveRooms = async () => {
+    if (!propertyDetails) return;
+    try {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify({ 
+        bedrooms: propertyDetails.bedrooms, 
+        bathrooms: propertyDetails.bathrooms 
+      }));
+      await updateProperty({ id: propertyDetails.id, data: formData }).unwrap();
+      toast.success("Rooms updated successfully");
+    } catch (error) {
+      console.error("Update rooms error:", error);
+      toast.error("Failed to update rooms");
     }
   };
 
@@ -301,11 +332,20 @@ const PropertiesTable: React.FC = () => {
                   <div className="flex items-center">
                     <div className="shrink-0 h-10 w-10">
                       {property.images.length > 0 ? (
-                        <img
-                          className="h-10 w-10 rounded-lg object-cover"
-                          src={property.images[0].url}
-                          alt={property.title}
-                        />
+                        isVideoUrl(property.images[0].url) ? (
+                          <video
+                            className="h-10 w-10 rounded-lg object-cover"
+                            src={property.images[0].url}
+                            muted
+                            playsInline
+                          />
+                        ) : (
+                          <img
+                            className="h-10 w-10 rounded-lg object-cover"
+                            src={property.images[0].url}
+                            alt={property.title}
+                          />
+                        )
                       ) : (
                         <div className="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center">
                           <span className="text-gray-400 text-xs">
@@ -570,12 +610,21 @@ const PropertiesTable: React.FC = () => {
                       }`}
                       onClick={() => openFullScreen(0)}
                     >
-                      <img
-                        src={propertyDetails.images[0]?.url}
-                        alt="Property Main"
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                      {propertyDetails.images[0]?.url === propertyDetails.coverImage ? (
+                      {isVideoUrl(propertyDetails.images[0]?.url) ? (
+                        <video
+                          src={propertyDetails.images[0]?.url}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          muted
+                          playsInline
+                        />
+                      ) : (
+                        <img
+                          src={propertyDetails.images[0]?.url}
+                          alt="Property Main"
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      )}
+                      {propertyDetails.images[0]?.url === propertyDetails.coverImage && !isVideoUrl(propertyDetails.images[0]?.url) ? (
                         <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-lg">
                           ★ Cover Image
                         </span>
@@ -609,23 +658,34 @@ const PropertiesTable: React.FC = () => {
                               }`}
                               onClick={() => openFullScreen(imgIdx)}
                             >
-                              <img
-                                src={img.url}
-                                alt={`Property ${imgIdx + 1}`}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                              />
-                              {isCover ? (
+                              {isVideoUrl(img.url) ? (
+                                <video
+                                  src={img.url}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                  muted
+                                  playsInline
+                                />
+                              ) : (
+                                <img
+                                  src={img.url}
+                                  alt={`Property ${imgIdx + 1}`}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                />
+                              )}
+                              {isCover && !isVideoUrl(img.url) ? (
                                 <span className="absolute top-1 left-1 bg-green-600 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded shadow">
                                   Cover
                                 </span>
                               ) : (
-                                <button
-                                  onClick={(e) => handleSetCover(e, img.url)}
-                                  disabled={isUpdatingCover}
-                                  className="absolute top-1 left-1 bg-black/75 hover:bg-green-600 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                                >
-                                  Set Cover
-                                </button>
+                                !isVideoUrl(img.url) && (
+                                  <button
+                                    onClick={(e) => handleSetCover(e, img.url)}
+                                    disabled={isUpdatingCover}
+                                    className="absolute top-1 left-1 bg-black/75 hover:bg-green-600 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                                  >
+                                    Set Cover
+                                  </button>
+                                )
                               )}
                               <button
                                 onClick={(e) => handleDeleteImage(e, img.publicId)}
@@ -705,20 +765,28 @@ const PropertiesTable: React.FC = () => {
                   </div>
 
                   {/* Rooms Info */}
-                  <div className="flex bg-gray-50 rounded-xl p-4 border justify-between">
+                  <div className="flex bg-gray-50 rounded-xl p-4 border justify-between relative">
                     <div className="text-center flex-1 border-r border-gray-200">
-                      <p className="text-2xl font-bold text-gray-800">
-                        {propertyDetails.bedrooms}
-                      </p>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider">
+                      <input
+                        type="number"
+                        min="0"
+                        value={propertyDetails.bedrooms}
+                        onChange={(e) => setPropertyDetails({ ...propertyDetails, bedrooms: Number(e.target.value) })}
+                        className="text-2xl font-bold text-gray-800 bg-transparent text-center w-full focus:outline-none focus:ring-1 focus:ring-blue-500 rounded hover:bg-gray-100 transition-colors"
+                      />
+                      <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">
                         Bedrooms
                       </p>
                     </div>
                     <div className="text-center flex-1 border-r border-gray-200">
-                      <p className="text-2xl font-bold text-gray-800">
-                        {propertyDetails.bathrooms}
-                      </p>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider">
+                      <input
+                        type="number"
+                        min="0"
+                        value={propertyDetails.bathrooms}
+                        onChange={(e) => setPropertyDetails({ ...propertyDetails, bathrooms: Number(e.target.value) })}
+                        className="text-2xl font-bold text-gray-800 bg-transparent text-center w-full focus:outline-none focus:ring-1 focus:ring-blue-500 rounded hover:bg-gray-100 transition-colors"
+                      />
+                      <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">
                         Bathrooms
                       </p>
                     </div>
@@ -730,6 +798,15 @@ const PropertiesTable: React.FC = () => {
                         Rating
                       </p>
                     </div>
+                  </div>
+                  
+                  <div className="flex justify-end mt-[-16px]">
+                    <button
+                      onClick={handleSaveRooms}
+                      className="px-4 py-1.5 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition shadow-sm cursor-pointer"
+                    >
+                      Save Rooms Changes
+                    </button>
                   </div>
 
                   {/* Location */}
@@ -898,11 +975,21 @@ const PropertiesTable: React.FC = () => {
             className="relative w-full h-full flex flex-col items-center justify-center gap-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={propertyDetails.images[currentImageIndex]?.url}
-              className="max-w-full max-h-[85vh] object-contain shadow-2xl animate-in zoom-in duration-300"
-              alt="Full Size"
-            />
+            {isVideoUrl(propertyDetails.images[currentImageIndex]?.url) ? (
+              <video
+                src={propertyDetails.images[currentImageIndex]?.url}
+                className="max-w-full max-h-[85vh] object-contain shadow-2xl animate-in zoom-in duration-300"
+                controls
+                autoPlay
+                muted
+              />
+            ) : (
+              <img
+                src={propertyDetails.images[currentImageIndex]?.url}
+                className="max-w-full max-h-[85vh] object-contain shadow-2xl animate-in zoom-in duration-300"
+                alt="Full Size"
+              />
+            )}
 
             {/* Image Counter & Actions */}
             <div className="flex flex-col items-center gap-4 mt-2">
@@ -910,18 +997,20 @@ const PropertiesTable: React.FC = () => {
                 {currentImageIndex + 1} / {propertyDetails.images.length}
               </div>
               
-              {propertyDetails.images[currentImageIndex]?.url === propertyDetails.coverImage ? (
+              {propertyDetails.images[currentImageIndex]?.url === propertyDetails.coverImage && !isVideoUrl(propertyDetails.images[currentImageIndex]?.url) ? (
                 <span className="bg-green-600/90 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-lg backdrop-blur-sm border border-green-500/30">
                   ★ Current Cover Image
                 </span>
               ) : (
-                <button
-                  onClick={(e) => handleSetCover(e, propertyDetails.images[currentImageIndex].url)}
-                  disabled={isUpdatingCover}
-                  className="bg-white/10 hover:bg-green-600/90 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-lg backdrop-blur-sm border border-white/20 hover:border-green-500/30 transition-all duration-300 cursor-pointer disabled:opacity-50"
-                >
-                  {isUpdatingCover ? "Updating..." : "Set as Cover"}
-                </button>
+                !isVideoUrl(propertyDetails.images[currentImageIndex]?.url) && (
+                  <button
+                    onClick={(e) => handleSetCover(e, propertyDetails.images[currentImageIndex].url)}
+                    disabled={isUpdatingCover}
+                    className="bg-white/10 hover:bg-green-600/90 text-white text-sm font-semibold px-5 py-2 rounded-full shadow-lg backdrop-blur-sm border border-white/20 hover:border-green-500/30 transition-all duration-300 cursor-pointer disabled:opacity-50"
+                  >
+                    {isUpdatingCover ? "Updating..." : "Set as Cover"}
+                  </button>
+                )
               )}
             </div>
           </div>
