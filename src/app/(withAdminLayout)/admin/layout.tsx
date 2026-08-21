@@ -10,6 +10,7 @@ import { BsSubstack } from "react-icons/bs";
 import { MdDashboard, MdOutlinePayments, MdContactMail, MdOutlineFeaturedPlayList } from "react-icons/md";
 import { FaExchangeAlt, FaProcedures } from "react-icons/fa";
 import { CiMedicalClipboard } from "react-icons/ci";
+import { FiShield } from "react-icons/fi";
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { TbLogout } from "react-icons/tb";
@@ -39,6 +40,11 @@ const navItems: NavItem[] = [
     title: "All Payment",
     href: "/admin/all-payment",
     icon: MdOutlinePayments,
+  },
+  {
+    title: "Vacanza Protect",
+    href: "/admin/vacanza-protect",
+    icon: FiShield,
   },
   {
     title: "Home Exchange",
