@@ -60,6 +60,8 @@ export const baseApi = createApi({
     "Surrounding",
     "Badge",
     "Property",
+    "ProtectPurchase",
+    "ProtectPlan",
   ],
   endpoints: () => ({}),
 });
